@@ -1,0 +1,16 @@
+﻿@model VMService[]
+@{
+    ViewBag.Title = "Услуги";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div id="grid-services">
+    @Html.Partial("_GridView", Model)
+</div>
+
+@section scripts{
+    <script>
+        $('#grid-services').sx_gv();
+    </script>
+}

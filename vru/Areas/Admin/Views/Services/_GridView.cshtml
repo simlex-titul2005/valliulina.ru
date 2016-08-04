@@ -1,0 +1,20 @@
+﻿@model VMService[]
+
+
+@Html.GridView(Model,
+        new Extantions.GridViewSettings<VMService>
+        {
+            Columns = new Extantions.GridViewColumn<VMService>[]{
+                new Extantions.GridViewColumn<VMService>{FieldName="Title", Caption="Заголовок"},
+                new Extantions.GridViewColumn<VMService>{FieldName="Html", Caption="Описание", Template=x=> { return Html.Raw(x.Html).ToString(); } },
+                new Extantions.GridViewColumn<VMService>{FieldName="Duration", Caption="Продолжительность"},
+                new Extantions.GridViewColumn<VMService>{FieldName="Cost", Caption="Стоимость"}
+            },
+            EnableCreating = true,
+            CreateRowUrl = Url.Action("Edit", "Services"),
+            EnableEditing = true,
+            EditRowUrl = x => { return Url.Action("Edit", "Services", new { id = x.Id }); },
+            DataAjaxUrl = Url.Action("Index", "Services"),
+            ShowPagerInfo = true
+        }
+    )

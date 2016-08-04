@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@(ViewBag.Title==null? global_asax.Settings["siteName"]:ViewBag.Title+" | "+global_asax.Settings["siteName"])</title>
+
+    <link rel="stylesheet" href="~/content/dist/css/site.min.css" />
+    @RenderSection("styles", false)
+</head>
+<body>
+    @Html.Partial("_Top")
+    @Html.Partial("_Navbar")
+    
+    <div class="intro">
+        <div class="container">
+            <h1>@(ViewBag.H1 ?? global_asax.Settings["defH1"])</h1>
+            @RenderSection("intro", true)
+        </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    @Html.Partial("_Footer")
+
+    <script src="~/content/dist/js/site.min.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

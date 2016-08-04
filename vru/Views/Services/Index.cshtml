@@ -1,0 +1,28 @@
+﻿@model VMService[]
+@{
+    ViewBag.Title = "Услуги";
+    ViewBag.H1 = ViewBag.Title;
+    VMService item;
+}
+
+@section intro{
+    Предоставляемые услуги
+}
+
+@if (Model.Any())
+{
+    for (int i = 0; i < Model.Length; i++)
+    {
+        item = Model[i];
+        <div class="service-in-list">
+            <h2 class="service-in-list__header">@item.Title</h2>
+            <div class="service-in-list__html">
+                @Html.Raw(item.Html)
+            </div>
+            <div class="service-in-list__btn">
+                <a href="@Url.Action("Details", "Services", new { titleUrl=item.TitleUrl})" class="btn btn-sm btn-transparent green">Узнать больше</a>
+            </div>
+        </div>
+        <hr />
+    }
+}

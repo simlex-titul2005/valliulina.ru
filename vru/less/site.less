@@ -1,0 +1,153 @@
+﻿@import (reference) "colors.less";
+@import (reference) "sizes.less";
+@import (reference) "../bower_components/bootstrap/less/variables.less";
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin,cyrillic);
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    /* Margin bottom by footer height */
+    margin-bottom: @foote-h+@foote-pad-top*2 + 60px;
+    font-size:15px;
+}
+
+@foote-h: 60px;
+@foote-pad-top: 20px;
+
+.footer {
+    padding-top: @foote-pad-top;
+    padding-bottom: @foote-pad-top;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: @foote-h+@foote-pad-top*2;
+    background-color: @color-footer;
+    color: @color-white;
+}
+
+.footer .right {
+    text-align: right;
+
+    @media (max-width: @screen-xs-max) {
+        text-align: left;
+    }
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        text-align: left;
+    }
+
+    @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    }
+
+    @media (min-width: @screen-lg-min) {
+    }
+}
+
+header {
+    height: 50px;
+    line-height: 50px;
+}
+
+header .phone {
+    color: @color-green;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-default{
+    background-image:none;
+    background-color:@color-gray;
+    border:none;
+    border-radius:0;
+    box-shadow:none;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: @color-black;
+    transition: all .4s;
+    @media (max-width: @screen-xs-max) {
+        
+    }
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        
+    }
+
+    @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        border-bottom: 3px solid transparent;
+    }
+
+    @media (min-width: @screen-lg-min) {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        border-bottom: 3px solid transparent;
+    }
+}
+
+.navbar-default .navbar-nav > .active > a {
+    background: none;
+    box-shadow: none;
+    
+    @media (max-width: @screen-xs-max) {
+        border-left:5px solid @color-green;
+    }
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        border-bottom: 3px solid @color-green;
+    }
+
+    @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+        border-bottom: 3px solid @color-green;
+    }
+
+    @media (min-width: @screen-lg-min) {
+        border-bottom: 3px solid @color-green;
+    }
+}
+
+.navbar-default .navbar-nav > .active > a:hover{
+    background:none;
+}
+
+.navbar-nav .fa {
+    font-size: .5em;
+    padding-right: 10px;
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+    color:@color-green;
+}
+
+.intro {
+    background-color: @color-green;
+    color: @color-white;
+    margin-bottom: @def-pad*4;
+    padding: 40px 0;
+}
+
+.intro h1{
+    margin:0;
+    font-size:30px;
+}
+
+a, a:link, a:active, a:visited, a:focus, button, button:link, button:visited, button:active, button:focus, input:focus{
+    outline:none !important;
+    color:inherit;
+}
+
+.btn-transparent.green{
+    border:1px solid @color-green;
+    color:@color-green;
+}
