@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SX.WebCore.Abstract;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using vru.Models.Abstract;
 
 namespace vru.Models
 {
-    public class Service : UpdateModel
+    [Table("D_SERVICE")]
+    public class Service : SxDbUpdatedModel<int>
     {
-        public int Id { get; set; }
-
         [Required, MaxLength(255)]
         public string Title { get; set; }
 

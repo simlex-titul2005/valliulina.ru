@@ -1,0 +1,41 @@
+﻿@model VMQuestion
+@{
+    var message = ViewBag.Message;
+}
+
+@using (Ajax.BeginForm("Send", new { controller = "Questions" }, new AjaxOptions { UpdateTargetId = "question", HttpMethod = "post" }, new { @class = "question-form", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    if (message != null)
+    {
+        <div class="alert alert-warning">
+            @message
+        </div>
+    }
+
+    <div class="form-group">
+        @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Представьтесь пожалуйста" } })
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.EditorFor(x => x.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Укажите адрес электронной почты" } })
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.EditorFor(x => x.Phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Укажите телефон для связи" } })
+        @Html.ValidationMessageFor(x => x.Phone)
+    </div>
+
+    <div class="form-group">
+        @Html.EditorFor(x => x.Text, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите текст обращения или заявки (не более 600 символов включая пробелы)" } })
+        @Html.ValidationMessageFor(x => x.Text)
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-transparent green">Отправить</button>
+    </div>
+
+}

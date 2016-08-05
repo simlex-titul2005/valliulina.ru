@@ -1,33 +1,36 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using SX.WebCore.MvcApplication;
+using SX.WebCore.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Web.Mvc;
-using System.Web.Routing;
+using System.Data.Entity;
 
 namespace vru
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : SxApplication<Infrastructure.DbContext>
     {
         private static Dictionary<string, string> _settings;
-        public static Dictionary<string, string> Settings
-        {
-            get { return _settings; }
-        }
+        public static Dictionary<string, string> Settings { get { return _settings; } }
 
         private static DateTime _lastStartDate;
-        public static DateTime LastStartDate
-        {
-            get { return _lastStartDate; }
-        }
 
-        protected void Application_Start()
+        protected override void Application_Start(object sender, EventArgs e)
         {
-            AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-
             fillSettings();
 
+            var args = new SxApplicationEventArgs();
+            args.WebApiConfigRegister = WebApiConfig.Register;
+            args.RegisterRoutes = RouteConfig.RegisterRoutes;
+            args.MapperConfiguration = AutoMapperConfig.MapperConfigurationInstance;
+            args.LogDirectory = null;
+            args.LoggingRequest = false;
+            base.Application_Start(sender, args);
+
             _lastStartDate = DateTime.Now;
+            Database.SetInitializer<Infrastructure.DbContext>(null);
+            var siteDomainItem = new SxRepoSiteSetting<Infrastructure.DbContext>().GetByKey("siteDomain");
+            SiteDomain = siteDomainItem?.Value;
         }
 
         private static void fillSettings()
@@ -35,8 +38,31 @@ namespace vru
             _settings = new Dictionary<string, string>();
             _settings.Add("phone1", ConfigurationManager.AppSettings["phone1"]);
             _settings.Add("phone2", ConfigurationManager.AppSettings["phone2"]);
-            _settings.Add("siteName", ConfigurationManager.AppSettings["siteName"]);
-            _settings.Add("defH1", ConfigurationManager.AppSettings["defH1"]);
+        }
+
+        public static DateTime LastStartDate
+        {
+            get
+            {
+                return _lastStartDate;
+            }
+        }
+
+        protected override void Session_Start()
+        {
+            var sessionId = Session.SessionID;
+            if (!UsersOnSite.ContainsKey(sessionId))
+                UsersOnSite.Add(sessionId, null);
+
+            if (User.Identity.IsAuthenticated)
+                UsersOnSite[sessionId] = User.Identity.GetUserName();
+        }
+
+        protected override void Session_End()
+        {
+            var sessionId = Session.SessionID;
+            if (UsersOnSite.ContainsKey(sessionId))
+                UsersOnSite.Remove(sessionId);
         }
     }
 }

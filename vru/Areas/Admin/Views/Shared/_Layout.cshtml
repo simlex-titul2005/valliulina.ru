@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@(ViewBag.Title == null ? "admin | "+global_asax.Settings["siteName"] : ViewBag.Title + " | admin | " + global_asax.Settings["siteName"])</title>
+    <title>@(ViewBag.Title == null ? "admin | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName) : ViewBag.Title + " | admin | " + MvcApplication.SiteSettingsProvider.Get(Settings.siteName))</title>
 
     <link href="~/Areas/Admin/content/dist/css/site.min.css" rel="stylesheet" />
     @RenderSection("styles", false)
@@ -268,7 +268,7 @@
                             <a href="javascript:void(0)"><i class="fa fa-crop fa-fw"></i> Мультимедиа<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("Index", "Pictires", new { area="Admin"})"><i class="fa fa-image fa-fw"></i> Фото-контент</a>
+                                    <a href="@Url.Action("Index", "Pictures", new { area="Admin"})"><i class="fa fa-image fa-fw"></i> Фото-контент</a>
                                 </li>
                             </ul>
                         </li>
@@ -277,10 +277,13 @@
                             <a href="#"><i class="fa fa-archive fa-fw"></i> Материалы<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("Index", "Articles", new { area= "Admin" })">Материалы</a>
+                                    <a href="@Url.Action("Index", "Articles", new { area= "Admin" })">Статьи</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index", "Services", new { area= "Admin" })">Услуги</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Education", new { area= "Admin" })">Образование</a>
                                 </li>
                             </ul>
                         </li>
@@ -314,10 +317,6 @@
                                 <li>
                                     <a href="@Url.Action("EditEmptyGame", "SiteSettings", new { area = "Admin" })">Иконка меню игр</a>
                                 </li>
-                                <li>
-                                    <a href="@Url.Action("GetLog", "Logs", new { area = "Admin", siteName=global_asax.Settings["siteName"]})"> Скачать лог</a>
-                                </li>
-
                             </ul>
                         </li>
                     </ul>

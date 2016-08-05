@@ -1,20 +1,14 @@
-﻿using AutoMapper;
+﻿using SX.WebCore.MvcControllers;
 using System.Web.Mvc;
+using vru.Infrastructure;
 
 namespace vru.Controllers
 {
-    public abstract class BaseController : Controller
+    public abstract class BaseController : SxBaseController<DbContext>
     {
-        private static IMapper _mapper;
-        protected static IMapper Mapper
-        {
-            get { return _mapper; }
-        }
-
         public BaseController()
         {
-            if (_mapper == null)
-                _mapper = AutoMapperConfig.MapperConfigurationInstance.CreateMapper();
+            WriteBreadcrumbs = BreadcrumbsManager.WriteBreadcrumbs;
         }
     }
 }

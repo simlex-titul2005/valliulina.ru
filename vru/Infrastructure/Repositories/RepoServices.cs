@@ -1,32 +1,35 @@
 ﻿using Dapper;
+using SX.WebCore;
+using SX.WebCore.Abstract;
+using SX.WebCore.Providers;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using vru.Models;
-using static vru.Infrastructure.HtmlHelpers.Extantions;
+using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoServices : Abstract.Repository<Service>
+    public sealed class RepoServices : SxDbRepository<int, Service, DbContext>
     {
-        public override Service[] Read(Filter filter, out int allCount)
+        public override Service[] Read(SxFilter filter, out int allCount)
         {
             var sb = new StringBuilder();
-            sb.Append(QueryProvider.GetSelectString());
-            sb.Append(" FROM Services AS s");
+            sb.Append(SxQueryProvider.GetSelectString());
+            sb.Append(" FROM D_SERVICE AS ds");
 
             object param = null;
             var gws = getServicesWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new Order { FieldName = "s.DateCreate", Direction = SortDirection.Desc };
-            sb.Append(QueryProvider.GetOrderString(defaultOrder, filter.Order));
+            var defaultOrder = new SxOrder { FieldName = "ds.DateCreate", Direction = SortDirection.Desc };
+            sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
 
             //count
             var sbCount = new StringBuilder();
-            sbCount.Append("SELECT COUNT(1) FROM Services AS s");
+            sbCount.Append("SELECT COUNT(1) FROM D_SERVICE AS ds");
             sbCount.Append(gws);
 
             using (var conn = new SqlConnection(ConnectionString))
@@ -37,14 +40,14 @@ namespace vru.Infrastructure.Repositories
             }
         }
 
-        private static string getServicesWhereString(Filter filter, out object param)
+        private static string getServicesWhereString(SxFilter filter, out object param)
         {
             param = null;
             string query = null;
-            query += " WHERE (s.Html LIKE '%'+@html+'%' OR @html IS NULL) ";
-            query += " AND (s.Title LIKE '%'+@title+'%' OR @title IS NULL) ";
-            query += " AND (s.Duration LIKE '%'+@duration+'%' OR @duration IS NULL) ";
-            query += " AND (s.Cost LIKE '%'+@cost+'%' OR @cost IS NULL) ";
+            query += " WHERE (ds.Html LIKE '%'+@html+'%' OR @html IS NULL) ";
+            query += " AND (ds.Title LIKE '%'+@title+'%' OR @title IS NULL) ";
+            query += " AND (ds.Duration LIKE '%'+@duration+'%' OR @duration IS NULL) ";
+            query += " AND (ds.Cost LIKE '%'+@cost+'%' OR @cost IS NULL) ";
 
             var html = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Html != null ? (string)filter.WhereExpressionObject.Html : null;
             var title = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Title != null ? (string)filter.WhereExpressionObject.Title : null;
@@ -62,11 +65,20 @@ namespace vru.Infrastructure.Repositories
             return query;
         }
 
-        public override Service GetById(object[] id)
+        public override Service GetByKey(params object[] id)
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
                 var data = conn.Query<Service>("dbo.get_service_by_id @serviceId", new { serviceId = id[0] }).SingleOrDefault();
+                return data;
+            }
+        }
+
+        public Service GetByTitleUrl(string titleUrl)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var data = conn.Query<Service>("dbo.get_service_by_title_url @titleUrl", new { titleUrl = titleUrl }).SingleOrDefault();
                 return data;
             }
         }

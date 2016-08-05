@@ -1,0 +1,77 @@
+﻿@model VMEducation
+@{
+    var isNew = Model.Id == 0;
+    ViewBag.Title = isNew ? "Добавить образование" : "Редактировать образование \"" + Model.Html + "\"";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (!isNew)
+{
+    <div class="text-right">
+        <div class="form-group">
+            <form method="post" action="@Url.Action("Delete","Education")">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Id)
+                <button class="btn btn-danger" type="submit" onclick="if (!confirm('Удалить запись?')) { return false;}">Удалить</button>
+            </form>
+        </div>
+    </div>
+}
+
+<form method="post" action="@Url.Action("Edit","Education")">
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.PictureId, new { @class = "control-label" })
+                @Html.EditorFor(x => x.PictureId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.PictureId)
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Year, new { @class = "control-label" })
+                @Html.EditorFor(x => x.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Year)
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Month, new { @class = "control-label" })
+                @Html.EditorFor(x => x.Month, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Month)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Html, new { @class = "control-label" })
+        @Html.EditorFor(x => x.Html, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(x => x.Html)
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">@(isNew ? "Добавить" : "Сохранить")</button>
+        <a href="@Url.Action("Index")" class="btn btn-default">Назад</a>
+    </div>
+
+</form>
+
+@section scripts{
+    <script src="~/bower_components/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/content/dist/js/jquery.validate.min.js"></script>
+    <script src="~/Areas/Admin/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        if (CKEDITOR.instances['Html']) {
+            CKEDITOR.remove(CKEDITOR.instances['Html']);
+        }
+        CKEDITOR.replace('Html', { height: 300 });
+
+        $(function () {
+            $('#PictureId').sx_gvl();
+        });
+    </script>
+}
+

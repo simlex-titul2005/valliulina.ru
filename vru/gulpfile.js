@@ -74,7 +74,8 @@ function createCss() {
 function createCssAdmin() {
     var lessStream = gulp.src([
        'Areas/Admin/less/site.less',
-       'Areas/Admin/less/sx-gv.less'
+       'Areas/Admin/less/sx-gv.less',
+       'Areas/Admin/less/sx-gvl.less'
     ])
         .pipe(less())
         .pipe(cleanCSS({ compatibility: 'ie8' }))
@@ -123,7 +124,7 @@ function createCssAdmin() {
        'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
        'bower_components/morris.js/morris.css'
     ])
-        .pipe(gulp.dest('content/dist/css'));
+        .pipe(gulp.dest('Areas/Admin/content/dist/css'));
 }
 
 //create fonts
@@ -162,12 +163,13 @@ function createJs() {
             .pipe(concat('site.min.js'))
             .pipe(gulp.dest('content/dist/js'));
 
-    ////by one js
-    //gulp.src([
-    //    'bower_components/jquery-validation/dist/jquery.validate.min.js',
-    //    'bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
-    //])
-    //    .pipe(gulp.dest('content/dist/js'));
+    //by one js
+    gulp.src([
+        'bower_components/jquery-validation/dist/jquery.validate.min.js',
+        'bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
+        'bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
+    ])
+        .pipe(gulp.dest('content/dist/js'));
 
 }
 function createJsAdmin() {
@@ -180,7 +182,8 @@ function createJsAdmin() {
 
     var sitejs = gulp.src([
         'Areas/Admin/scripts/site.js',
-        'Areas/Admin/scripts/sx-gv.js'
+        'Areas/Admin/scripts/sx-gv.js',
+        'Areas/Admin/scripts/sx-gvl.js'
     ])
         .pipe(uglify())
         .pipe(concat('sitejs.js'));

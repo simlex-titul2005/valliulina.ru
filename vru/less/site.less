@@ -147,7 +147,45 @@ a, a:link, a:active, a:visited, a:focus, button, button:link, button:visited, bu
     color:inherit;
 }
 
+.btn-transparent{
+    background:none;
+}
+
 .btn-transparent.green{
     border:1px solid @color-green;
     color:@color-green;
+}
+
+.question-form{
+    width:600px;
+    max-width:100%;
+}
+
+.question-form [name="Text"]{
+    min-height:300px;
+    resize:none;
+}
+
+.question-form label{
+    font-weight:300;
+}
+
+.form-control{
+    height:45px;
+    margin:@def-pad 0;
+}
+
+.form-control:focus{
+    box-shadow:0 0 4px #ccc;
+    border:1px solid #ccc;
+}
+
+.field-validation-error{
+    color:@color-danger;
+    font-size:13px;
+}
+
+.login-form{
+    width:500px;
+    max-width:100%;
 }

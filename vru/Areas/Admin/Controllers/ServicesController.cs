@@ -1,12 +1,10 @@
-﻿using AutoMapper;
+﻿using SX.WebCore;
 using System.Linq;
 using System.Web.Mvc;
-using vru.Infrastructure;
 using vru.Infrastructure.Repositories;
 using vru.Models;
 using vru.ViewModels;
-using static vru.Infrastructure.HtmlHelpers.Extantions;
-using vru.Infrastructure.Extantions;
+using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Areas.Admin.Controllers
 {
@@ -19,13 +17,13 @@ namespace vru.Areas.Admin.Controllers
                 _repo = new RepoServices();
         }
 
-        private static readonly int _pageSize=3;
+        private static readonly int _pageSize=10;
 
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new Order { FieldName = "DateCreate", Direction = SortDirection.Desc };
-            var filter = new Infrastructure.Filter(page, _pageSize) { Order = order };
+            var order = new SxOrder { FieldName = "DateCreate", Direction = SortDirection.Desc };
+            var filter = new SxFilter(page, _pageSize) { Order = order };
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);
             filter.PagerInfo.TotalItems = totalItems;
@@ -39,9 +37,9 @@ namespace vru.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual PartialViewResult Index(VMService filterModel, Order order, int page = 1)
+        public virtual PartialViewResult Index(VMService filterModel, SxOrder order, int page = 1)
         {
-            var filter = new Infrastructure.Filter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
+            var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
 
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);
@@ -60,7 +58,7 @@ namespace vru.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            var data = id.HasValue ? _repo.GetById(new object[] { id }) : new Service();
+            var data = id.HasValue ? _repo.GetByKey(id) : new Service();
             if (data == null)
                 return new HttpNotFoundResult();
 
@@ -74,10 +72,7 @@ namespace vru.Areas.Admin.Controllers
         {
             var isNew = model.Id == 0;
             if(isNew || (!isNew && model.TitleUrl==null))
-            {
                 model.TitleUrl = Url.SeoFriendlyUrl(model.Title);
-                ModelState["TitleUrl"].Errors.Clear();
-            }
 
             if (ModelState.IsValid)
             {
@@ -96,7 +91,7 @@ namespace vru.Areas.Admin.Controllers
         [HttpPost, AllowAnonymous]
         public ActionResult Delete(Service model)
         {
-            var data = _repo.GetById(new object[] { model.Id });
+            var data = _repo.GetByKey(model.Id);
             if (data == null)
                 return new HttpNotFoundResult();
 

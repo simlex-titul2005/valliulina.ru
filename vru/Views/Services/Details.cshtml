@@ -1,0 +1,39 @@
+﻿@model VMService
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
+}
+
+@section intro{
+
+}
+
+<div class="service-details">
+    <div class="service-details__html">
+        @Html.Raw(Model.Html)
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Duration))
+    {
+        <div class="service-details__duration">
+            Продолжительность: <strong>@Model.Duration</strong>
+        </div>
+    }
+
+    <div class="service-details__duration">
+        Стоимость: <strong>@(Model.Cost ?? "По договоренности")</strong>
+    </div>
+
+    <hr />
+
+    <h2>Записаться</h2>
+    <div id="question">
+        @Html.Action("Add", "Questions")
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/content/dist/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/content/dist/js/jquery.validate.min.js"></script>
+    <script src="~/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+}

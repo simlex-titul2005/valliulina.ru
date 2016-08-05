@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                © 2015 - @DateTime.Now.Year. @global_asax.Settings["siteName"]. Все права защищены 
+                © 2015 - @DateTime.Now.Year. @MvcApplication.SiteSettingsProvider.Get(Settings.siteName). Все права защищены 
             </div>
             <div class="col-md-6">
                 <div class="right">

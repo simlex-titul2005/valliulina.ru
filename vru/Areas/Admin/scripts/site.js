@@ -26,4 +26,12 @@
     if (element.is('li')) {
         element.addClass('active');
     }
+
+    $(document).mouseup(function (e) {
+        var container = $(".sx-gvl__dropdown");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.hide();
+        }
+    });
 }
