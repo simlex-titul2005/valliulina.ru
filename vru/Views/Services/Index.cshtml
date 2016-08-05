@@ -1,19 +1,20 @@
-﻿@model VMService[]
+﻿@model SxExtantions.SxPagedCollection<VMService>
 @{
     ViewBag.Title = "Услуги";
     ViewBag.H1 = ViewBag.Title;
     VMService item;
+    var filter=(SxFilter)ViewBag.Filter;
 }
 
 @section intro{
     Предоставляемые услуги
 }
 
-@if (Model.Any())
+@if (Model.Collection.Any())
 {
-    for (int i = 0; i < Model.Length; i++)
+    for (int i = 0; i < Model.Collection.Length; i++)
     {
-        item = Model[i];
+        item = Model.Collection[i];
         <div class="service-in-list">
             <h2 class="service-in-list__header">@item.Title</h2>
             <div class="service-in-list__html">
@@ -25,4 +26,8 @@
         </div>
         <hr />
     }
+
+    <div class="text-center">
+        @Html.SxPager(filter.PagerInfo, x => Url.Action("Index", "Services", new { page = x }), htmlAttributes: new { @class = "pagination pagination-sm" }, isAjax: false)
+    </div>
 }

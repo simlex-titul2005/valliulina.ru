@@ -1,0 +1,84 @@
+﻿@model VMService
+@{
+    var isNew = Model.Id == 0;
+    ViewBag.Title = isNew ? "Добавить услугу" : "Редактировать услугу \"" + Model.Title + "\"";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (!isNew)
+{
+    <div class="text-right">
+        <div class="form-group">
+            <form method="post" action="@Url.Action("Delete","Services")">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Id)
+                <button class="btn btn-danger" type="submit" onclick="if (!confirm('Удалить запись?')) { return false;}">Удалить</button>
+            </form>
+        </div>
+    </div>
+}
+
+<form method="post" action="@Url.Action("Edit","Services")">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Title, new { @class = "control-label" })
+        @Html.EditorFor(x => x.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(x => x.Title)
+    </div>
+
+    @if (!isNew)
+    {
+        <div class="form-group">
+            @Html.LabelFor(x => x.TitleUrl, new { @class = "control-label" })
+            @Html.EditorFor(x => x.TitleUrl, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(x => x.TitleUrl)
+        </div>
+        <div class="alert alert-warning">
+            <strong>Внимание!</strong> Чтобы изменить строковый ключ материала, оставьте поле пустым
+        </div>
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Html, new { @class = "control-label" })
+        @Html.EditorFor(x => x.Html, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(x => x.Html)
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Duration, new { @class = "control-label" })
+                @Html.EditorFor(x => x.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Duration)
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Cost, new { @class = "control-label" })
+                @Html.EditorFor(x => x.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Cost)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">@(isNew ? "Добавить" : "Сохранить")</button>
+        <a href="@Url.Action("Index")" class="btn btn-default">Назад</a>
+    </div>
+
+</form>
+
+@section scripts{
+    <script src="~/bower_components/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/content/dist/js/jquery.validate.min.js"></script>
+    <script src="~/Areas/Admin/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        if (CKEDITOR.instances['Html']) {
+            CKEDITOR.remove(CKEDITOR.instances['Html']);
+        }
+        CKEDITOR.replace('Html', { height: 300 });
+    </script>
+}
+

@@ -13,8 +13,10 @@ namespace vru.ViewModels
 
         public DateTime DateUpdate { get; set; }
 
+        [Display(Name = "Год")]
         public int Year { get; set; }
 
+        [Display(Name = "Месяц")]
         public int Month { get; set; }
 
         public string GroupName { get; set; }
@@ -24,7 +26,7 @@ namespace vru.ViewModels
 
         public SxVMPicture Picture { get; set; }
 
-        [UIHint("PicturesLookupGrid")]
+        [Display(Name ="Картинка"), UIHint("PicturesLookupGrid")]
         public Guid? PictureId { get; set; }
     }
 }

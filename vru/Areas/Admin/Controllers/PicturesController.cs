@@ -2,7 +2,7 @@
 
 namespace vru.Areas.Admin.Controllers
 {
-    public class PicturesController : SX.WebCore.MvcControllers.SxPicturesController<DbContext>
+    public sealed class PicturesController : SX.WebCore.MvcControllers.SxPicturesController<DbContext>
     {
         
     }

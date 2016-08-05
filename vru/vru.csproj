@@ -172,11 +172,17 @@
     <Content Include="Areas\Admin\content\dist\js\morris.min.js" />
     <Content Include="Areas\Admin\content\dist\js\raphael.min.js" />
     <Content Include="Areas\Admin\content\dist\js\site.min.js" />
+    <Content Include="content\dist\css\lightbox.min.css" />
     <Content Include="content\dist\css\site.min.css" />
     <Content Include="content\dist\fonts\fontawesome-webfont.svg" />
+    <Content Include="content\dist\images\close.png" />
+    <Content Include="content\dist\images\loading.gif" />
+    <Content Include="content\dist\images\next.png" />
+    <Content Include="content\dist\images\prev.png" />
     <Content Include="content\dist\js\jquery.unobtrusive-ajax.min.js" />
     <Content Include="content\dist\js\jquery.validate.min.js" />
     <Content Include="content\dist\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="content\dist\js\lightbox.min.js" />
     <Content Include="content\dist\js\site.min.js" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
@@ -189,11 +195,20 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ArticlesController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\EducationController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PicturesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuestionsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RedirectsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RequestsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SeoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SeoKeywordsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SeoTagsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ServicesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteSettingsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SituationsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
@@ -201,24 +216,32 @@
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\EducationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SituationsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\BreadcrumbsManager.cs" />
     <Compile Include="Infrastructure\DbContext.cs" />
+    <Compile Include="Infrastructure\Repositories\RepoArticles.cs" />
     <Compile Include="Infrastructure\Repositories\RepoEducation.cs" />
     <Compile Include="Infrastructure\Repositories\RepoQuestions.cs" />
+    <Compile Include="Infrastructure\Repositories\RepoSituations.cs" />
     <Compile Include="Infrastructure\Repositories\RepoServices.cs" />
     <Compile Include="Infrastructure\SiteMapProvider.cs" />
     <Compile Include="Infrastructure\SiteSettings.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Education.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\Situation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Abstract\VMMaterial.cs" />
+    <Compile Include="ViewModels\VMArticle.cs" />
     <Compile Include="ViewModels\VMEducation.cs" />
     <Compile Include="ViewModels\VMQuestion.cs" />
     <Compile Include="ViewModels\VMService.cs" />
+    <Compile Include="ViewModels\VMSituation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -259,6 +282,31 @@
     <Content Include="Areas\Admin\Views\Education\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Pictures\_FindGridView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PicturesLookupGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Requests\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Requests\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditSite.cshtml" />
+    <Content Include="Areas\Admin\Views\Seo\EditRobotsFile.cshtml" />
+    <Content Include="Areas\Admin\Views\Redirects\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Redirects\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Redirects\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\_EditForMaterial.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\_GeneralEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoKeywords\_GridView.cshtml" />
+    <Content Include="Views\Services\_MainPageServices.cshtml" />
+    <Content Include="Areas\Admin\Views\Situations\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\Situations\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Situations\Index.cshtml" />
+    <Content Include="Views\Situations\_MainPageSituations.cshtml" />
+    <Content Include="Views\Questions\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Questions\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\Questions\Read.cshtml" />
+    <Content Include="Areas\Admin\Views\Questions\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Articles\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\Articles\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Articles\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -272,7 +320,6 @@
       <Name>SX.WebCore</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

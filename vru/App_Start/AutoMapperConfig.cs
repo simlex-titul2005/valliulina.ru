@@ -28,9 +28,29 @@ namespace vru
                     cfg.CreateMap<Question, VMQuestion>();
                     cfg.CreateMap<VMQuestion, Question>();
 
+                    //301 redirect
+                    cfg.CreateMap<Sx301Redirect, SxVM301Redirect>();
+                    cfg.CreateMap<Sx301Redirect, SxVMEdit301Redirect>();
+                    cfg.CreateMap<SxVMEdit301Redirect, Sx301Redirect>();
+
+                    //seo keyword
+                    cfg.CreateMap<SxSeoKeyword, SxVMSeoKeyword>();
+                    cfg.CreateMap<SxSeoKeyword, SxVMEditSeoKeyword>();
+                    cfg.CreateMap<SxVMEditSeoKeyword, SxSeoKeyword>();
+
+                    //seo tags
+                    cfg.CreateMap<SxSeoTags, SxVMSeoTags>();
+                    cfg.CreateMap<SxVMSeoTags, SxSeoTags>();
+                    cfg.CreateMap<SxSeoTags, SxVMEditSeoTags>();
+                    cfg.CreateMap<SxVMEditSeoTags, SxSeoTags>();
+
                     //service
                     cfg.CreateMap<Service, VMService>();
                     cfg.CreateMap<VMService, Service>();
+
+                    //situation
+                    cfg.CreateMap<Situation, VMSituation>();
+                    cfg.CreateMap<VMSituation, Situation>();
                 });
             }
         }

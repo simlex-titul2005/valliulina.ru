@@ -7,3 +7,26 @@
     Психолог
 }
 
+<div class="home-page">
+    <div class="home-page__top">
+        <figure class="home-page__owner">
+            <img alt="Светлана Валлиулина" class="home-page__owner-img" src="@Url.Action("Picture","Pictures", new { id=MvcApplication.SiteSettingsProvider.Get(Settings.siteLogoPath)})" />
+            <figcaption>
+                <a class="btn btn-lg btn-transparent green" href="@Url.Action("Edit","Questions")">Записаться</a>
+            </figcaption>
+        </figure>
+
+        <div class="home-page__desc">
+            @Html.Raw(MvcApplication.SiteSettingsProvider.Get(Settings.siteDesc))
+        </div>
+    </div>
+
+    <div class="home-page__services">
+        @Html.Action("MainPageServices", "Services", new { amount = 3 })
+    </div>
+
+    <div class="home-page__situations">
+        @Html.Action("MainPageSituations", "Situations", new { amount=(int?)null, maxAmount=30})
+    </div>
+</div>
+

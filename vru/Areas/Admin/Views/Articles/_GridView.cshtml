@@ -1,0 +1,17 @@
+﻿@model VMArticle[]
+
+
+@Html.SxGridView(Model,
+        new SxExtantions.SxGridViewSettings<VMArticle>
+        {
+            Columns = new SxExtantions.SxGridViewColumn<VMArticle>[]{
+                new SxExtantions.SxGridViewColumn<VMArticle>{FieldName="Title", Caption="Заголовок"}
+            },
+            EnableCreating = true,
+            CreateRowUrl = Url.Action("Edit", "Articles"),
+            EnableEditing = true,
+            EditRowUrl = x => { return Url.Action("Edit", "Articles", new { id = x.Id }); },
+            DataAjaxUrl = Url.Action("Index", "Articles"),
+            ShowPagerInfo = true
+        }
+    )

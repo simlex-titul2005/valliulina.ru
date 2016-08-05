@@ -1,0 +1,30 @@
+﻿@model VMQuestion
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="text-right">
+    <div class="form-group">
+        <form method="post" action="@Url.Action("Delete","Questions")">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.Id)
+            <button class="btn btn-danger" type="submit" onclick="if (!confirm('Удалить запись?')) { return false;}">Удалить</button>
+        </form>
+    </div>
+</div>
+
+<blockquote>
+    <p class="lead">
+        @Model.Text
+    </p>
+</blockquote>
+<br />
+Email: @Model.Email<br />
+Телефон: @Model.Phone
+
+<div>
+    <br />
+    <a class="btn btn-default" href="@Url.Action("Index","Questions")">Назад</a>
+</div>

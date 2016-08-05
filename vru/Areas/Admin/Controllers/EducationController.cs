@@ -1,8 +1,8 @@
 ﻿using SX.WebCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using vru.Infrastructure.Repositories;
 using vru.Models;
@@ -11,7 +11,7 @@ using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Areas.Admin.Controllers
 {
-    public class EducationController : BaseController
+    public sealed class EducationController : BaseController
     {
         private static RepoEducation _repo;
         public EducationController()
@@ -25,7 +25,7 @@ namespace vru.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "DateCreate", Direction = SortDirection.Desc };
+            var order = new SxOrder { FieldName = "de.DateCreate", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);
@@ -40,7 +40,7 @@ namespace vru.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual PartialViewResult Index(VMEducation filterModel, SxOrder order, int page = 1)
+        public PartialViewResult Index(VMEducation filterModel, SxOrder order, int page = 1)
         {
             var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
 
@@ -65,7 +65,25 @@ namespace vru.Areas.Admin.Controllers
             if (data == null)
                 return new HttpNotFoundResult();
 
+            if (id.HasValue && data.Picture != null)
+                ViewData["PictureIdCaption"] = data.Picture.Caption;
+
             var viewModel = Mapper.Map<Education, VMEducation>(data);
+
+            var years = new List<SelectListItem>();
+            for (int i = 1950; i <= DateTime.Now.Year; i++)
+            {
+                years.Add(new SelectListItem { Text=i.ToString(), Value=i.ToString(), Selected= id.HasValue && data.Year==i});
+            }
+            ViewBag.Years = years.ToArray();
+
+            var monthes = new List<SelectListItem>();
+            for (int i = 1; i <= 12; i++)
+            {
+                var monthName= CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i);
+                monthes.Add(new SelectListItem { Text=monthName, Value=i.ToString(), Selected= id.HasValue && data.Month == i });
+            }
+            ViewBag.Monthes = monthes.ToArray();
 
             return View(viewModel);
         }

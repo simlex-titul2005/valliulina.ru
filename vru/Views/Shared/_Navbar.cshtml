@@ -20,6 +20,10 @@
                 <li @(controller=="services"?"class=active":null)><a href="@Url.Action("Index", "Services")"><i class="fa fa-chevron-right" aria-hidden="true"></i> Услуги</a></li>
                 <li @(controller=="articles"?"class=active":null)><a href="@Url.Action("Index", "Articles")"><i class="fa fa-chevron-right" aria-hidden="true"></i> Материалы</a></li>
                 <li @(controller=="home" && action=="contact"?"class=active":null)><a href="@Url.Action("Contact", "Home")"><i class="fa fa-chevron-right" aria-hidden="true"></i> Контакты</a></li>
+                @if(User.IsInRole("admin"))
+                {
+                    <li><a href="@Url.Action("Index","Questions", new { area="Admin"})"><span class="text-warning">Админ</span></a></li>
+                }
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (User.Identity.IsAuthenticated)
@@ -31,6 +35,10 @@
                         </form>
                         <a href="#" onclick="$(this).prev('form').submit()">Выход</a>
                     </li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Login", "Account")">Вход</a></li>
                 }
             </ul>
         </div>

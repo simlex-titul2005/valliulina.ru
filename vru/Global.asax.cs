@@ -24,7 +24,7 @@ namespace vru
             args.RegisterRoutes = RouteConfig.RegisterRoutes;
             args.MapperConfiguration = AutoMapperConfig.MapperConfigurationInstance;
             args.LogDirectory = null;
-            args.LoggingRequest = false;
+            args.LoggingRequest = true;
             base.Application_Start(sender, args);
 
             _lastStartDate = DateTime.Now;

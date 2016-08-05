@@ -1,6 +1,6 @@
 /************************************************************
  * Code formatted by SoftTree SQL Assistant © v6.5.278
- * Time: 05.08.2016 3:10:27
+ * Time: 05.08.2016 14:46:27
  ************************************************************/
 
 /*******************************************
@@ -196,6 +196,9 @@ BEGIN
 	RETURN LTRIM(RTRIM(@HTMLText))
 END
 GO
+
+
+
 
 
 
@@ -421,6 +424,9 @@ BEGIN
 	RETURN @res
 END
 GO
+
+
+
 
 
 
@@ -2547,6 +2553,23 @@ END
 GO
 
 /*******************************************
+ * Обновить статус прочтения вопроса
+ *******************************************/
+IF OBJECT_ID(N'dbo.update_question_read', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.update_question_read;
+GO
+CREATE PROCEDURE dbo.update_question_read
+	@questionId INT,
+	@read BIT
+AS
+BEGIN
+	UPDATE D_QUESTION
+	SET    IsReaded     = @read
+	WHERE  Id           = @questionId
+END
+GO
+
+/*******************************************
  * Добавить вопрос
  *******************************************/
 IF OBJECT_ID(N'dbo.add_question', N'P') IS NOT NULL
@@ -2587,7 +2610,7 @@ END
 GO
 
 /*******************************************
- * Добавить вопрос
+ * Обновить вопрос
  *******************************************/
 IF OBJECT_ID(N'dbo.update_question', N'P') IS NOT NULL
     DROP PROCEDURE dbo.update_question;
@@ -2615,12 +2638,28 @@ END
 GO
 
 /*******************************************
+ * Удалить вопрос
+ *******************************************/
+IF OBJECT_ID(N'dbo.del_question', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.del_question;
+GO
+CREATE PROCEDURE dbo.del_question
+	@questionId INT
+AS
+BEGIN
+	DELETE 
+	FROM   D_QUESTION
+	WHERE  Id = @questionId
+END
+GO
+
+/*******************************************
  * Получить образование
  *******************************************/
-IF OBJECT_ID(N'dbo.get_education', N'P') IS NOT NULL
-    DROP PROCEDURE dbo.get_education;
+IF OBJECT_ID(N'dbo.get_education_by_key', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.get_education_by_key;
 GO
-CREATE PROCEDURE dbo.get_education
+CREATE PROCEDURE dbo.get_education_by_key
 	@educationId INT
 AS
 BEGIN
@@ -2672,7 +2711,7 @@ BEGIN
 	DECLARE @id INT
 	SELECT @id = @@identity
 	
-	EXEC dbo.get_education @id
+	EXEC dbo.get_education_by_key @id
 END
 GO
 
@@ -2716,6 +2755,92 @@ BEGIN
 	       DateUpdate = GETDATE()
 	WHERE  Id = @educationId
 	
-	EXEC dbo.get_education @educationId
+	EXEC dbo.get_education_by_key @educationId
+END
+GO
+
+/*******************************************
+ * Получить ситуацию
+ *******************************************/
+IF OBJECT_ID(N'dbo.get_situation_by_id', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.get_situation_by_id;
+GO
+CREATE PROCEDURE dbo.get_situation_by_id
+	@situationId INT
+AS
+BEGIN
+	SELECT *
+	FROM   D_SITUATION AS ds
+	WHERE  ds.Id = @situationId
+END
+GO
+
+/*******************************************
+ * Добавить ситуацию
+ *******************************************/
+IF OBJECT_ID(N'dbo.add_situation', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.add_situation;
+GO
+CREATE PROCEDURE dbo.add_situation
+	@text NVARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @date DATETIME = GETDATE()
+	
+	INSERT INTO D_SITUATION
+	  (
+	    [Text],
+	    DateUpdate,
+	    DateCreate
+	  )
+	VALUES
+	  (
+	    @text,
+	    @date,
+	    @date
+	  )
+	
+	DECLARE @id INT
+	SELECT @id = @@identity
+	
+	EXEC dbo.get_situation_by_id @id
+END
+GO
+
+/*******************************************
+ * Обновить ситуацию
+ *******************************************/
+IF OBJECT_ID(N'dbo.update_situation', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.update_situation;
+GO
+CREATE PROCEDURE dbo.update_situation
+	@situationId INT,
+	@text NVARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @date DATETIME = GETDATE()
+	
+	UPDATE D_SITUATION
+	SET    [Text] = @text,
+	       DateUpdate = @date
+	WHERE  Id = @situationId
+	
+	EXEC dbo.get_situation_by_id @situationId
+END
+GO
+
+/*******************************************
+ * Удалить ситуацию
+ *******************************************/
+IF OBJECT_ID(N'dbo.del_situation', N'P') IS NOT NULL
+    DROP PROCEDURE dbo.del_situation;
+GO
+CREATE PROCEDURE dbo.del_situation
+	@situationId INT
+AS
+BEGIN
+	DELETE 
+	FROM   D_SITUATION
+	WHERE  Id = @situationId
 END
 GO

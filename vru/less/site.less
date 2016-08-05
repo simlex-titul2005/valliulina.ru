@@ -13,7 +13,9 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
     /* Margin bottom by footer height */
     margin-bottom: @foote-h+@foote-pad-top*2 + 60px;
-    font-size:15px;
+    font-size: 15px;
+    line-height: 1.618;
+    color: #333;
 }
 
 @foote-h: 60px;
@@ -64,23 +66,22 @@ header .phone {
     margin-bottom: 0;
 }
 
-.navbar-default{
-    background-image:none;
-    background-color:@color-gray;
-    border:none;
-    border-radius:0;
-    box-shadow:none;
+.navbar-default {
+    background-image: none;
+    background-color: @color-gray;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .navbar-default .navbar-nav > li > a {
     color: @color-black;
     transition: all .4s;
+
     @media (max-width: @screen-xs-max) {
-        
     }
 
     @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-        
     }
 
     @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
@@ -99,9 +100,9 @@ header .phone {
 .navbar-default .navbar-nav > .active > a {
     background: none;
     box-shadow: none;
-    
+
     @media (max-width: @screen-xs-max) {
-        border-left:5px solid @color-green;
+        border-left: 5px solid @color-green;
     }
 
     @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
@@ -117,8 +118,8 @@ header .phone {
     }
 }
 
-.navbar-default .navbar-nav > .active > a:hover{
-    background:none;
+.navbar-default .navbar-nav > .active > a:hover {
+    background: none;
 }
 
 .navbar-nav .fa {
@@ -126,8 +127,8 @@ header .phone {
     padding-right: 10px;
 }
 
-.navbar-default .navbar-nav > li > a:hover{
-    color:@color-green;
+.navbar-default .navbar-nav > li > a:hover {
+    color: @color-green;
 }
 
 .intro {
@@ -137,55 +138,110 @@ header .phone {
     padding: 40px 0;
 }
 
-.intro h1{
-    margin:0;
-    font-size:30px;
+.intro h1 {
+    margin: 0;
+    font-size: 30px;
 }
 
-a, a:link, a:active, a:visited, a:focus, button, button:link, button:visited, button:active, button:focus, input:focus{
-    outline:none !important;
-    color:inherit;
+a, a:link, a:active, a:visited, a:focus, button, button:link, button:visited, button:active, button:focus, input:focus {
+    outline: none !important;
+    color: inherit;
 }
 
-.btn-transparent{
-    background:none;
+.btn-transparent {
+    background: none;
 }
 
-.btn-transparent.green{
-    border:1px solid @color-green;
-    color:@color-green;
+.btn-transparent.green {
+    border: 1px solid @color-green;
+    color: @color-green;
 }
 
-.question-form{
-    width:600px;
-    max-width:100%;
+.question-form {
+    width: 600px;
+    max-width: 100%;
 }
 
-.question-form [name="Text"]{
-    min-height:300px;
-    resize:none;
+.question-form [name="Text"] {
+    min-height: 300px;
+    resize: none;
 }
 
-.question-form label{
-    font-weight:300;
+.question-form label {
+    font-weight: 300;
 }
 
-.form-control{
-    height:45px;
-    margin:@def-pad 0;
+.form-control {
+    height: 45px;
+    margin: @def-pad 0;
 }
 
-.form-control:focus{
-    box-shadow:0 0 4px #ccc;
-    border:1px solid #ccc;
+.form-control:focus {
+    box-shadow: 0 0 4px #ccc;
+    border: 1px solid #ccc;
 }
 
-.field-validation-error{
-    color:@color-danger;
-    font-size:13px;
+.field-validation-error {
+    color: @color-danger;
+    font-size: 13px;
 }
 
-.login-form{
-    width:500px;
-    max-width:100%;
+.login-form {
+    width: 500px;
+    max-width: 100%;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover {
+    background-color: @color-green;
+    border-color: @color-green;
+    color: @color-white;
+}
+
+.pagination-sm > li > a, .pagination-sm > li > span, .pagination-sm > li > a:hover {
+    color: @color-black;
+}
+
+
+.home-page__top {
+    display: inline-block;
+    width: 100%;
+}
+
+.home-page__owner {
+    text-align: center;
+    width: 400px;
+    margin: 0 40px 20px 0;
+    float: left;
+}
+
+.home-page__owner figcaption {
+    padding-top: @def-pad*2;
+}
+
+.home-page__owner-img {
+    max-width: 100%;
+}
+
+//hp-services-item
+.hp-services-item__title {
+    font-size: 23px;
+}
+
+.hp-services-item__btn {
+    margin-top: @def-pad*2;
+}
+
+//hp-sutiation
+.hp-sutiation {
+    border-bottom: 2px solid #f1f1f1;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.hp-sutiation__arrow {
+    color: @color-green;
+    font-weight: 700;
+    font-size: 11px;
+    top: -2px;
+    position: relative;
 }

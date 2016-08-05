@@ -12,11 +12,27 @@ namespace vru.Infrastructure.Repositories
 {
     public sealed class RepoEducation : SxDbRepository<int, Education, DbContext>
     {
+        public override Education GetByKey(params object[] id)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var data = conn.Query<Education, SxPicture, Education>("dbo.get_education_by_key @educationId", (e, p) => {
+                    e.Picture = p;
+                    return e;
+                }, new
+                {
+                    educationId = id[0]
+                }).SingleOrDefault();
+
+                return data;
+            }
+        }
+
         public override Education[] Read(SxFilter filter, out int allCount)
         {
             var sb = new StringBuilder();
             sb.Append(SxQueryProvider.GetSelectString());
-            sb.Append(" FROM D_EDUCATION AS de");
+            sb.Append(" FROM D_EDUCATION AS de LEFT JOIN D_PICTURE AS dp ON dp.Id=de.PictureId ");
 
             object param = null;
             var gws = getEducationWhereString(filter, out param);
@@ -34,7 +50,10 @@ namespace vru.Infrastructure.Repositories
 
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Education>(sb.ToString(), param: param);
+                var data = conn.Query<Education, SxPicture, Education>(sb.ToString(), (e,p)=> {
+                    e.Picture = p;
+                    return e;
+                }, param: param, splitOn:"Id");
                 allCount = conn.Query<int>(sbCount.ToString(), param: param).SingleOrDefault();
                 return data.ToArray();
             }
@@ -60,14 +79,17 @@ namespace vru.Infrastructure.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Education>("dbo.add_education @year, @month, @groupName, @html, @pictureId", new
+                var data = conn.Query<Education, SxPicture, Education>("dbo.add_education @year, @month, @groupName, @html, @pictureId", (e,p)=> {
+                    e.Picture = p;
+                    return e;
+                }, new
                 {
                     year=model.Year,
                     month=model.Month,
                     groupName=model.GroupName,
                     html=model.Html,
                     pictureId=model.PictureId
-                }).SingleOrDefault();
+                }, splitOn: "Id").SingleOrDefault();
 
                 return data;
             }
@@ -85,7 +107,10 @@ namespace vru.Infrastructure.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Education>("dbo.update_education @educationId, @year, @month, @groupName, @html, @pictureId", new
+                var data = conn.Query<Education, SxPicture, Education>("dbo.update_education @educationId, @year, @month, @groupName, @html, @pictureId", (e, p)=> {
+                    e.Picture = p;
+                    return e;
+                }, new
                 {
                     educationId=model.Id,
                     year = model.Year,
@@ -93,7 +118,7 @@ namespace vru.Infrastructure.Repositories
                     groupName = model.GroupName,
                     html = model.Html,
                     pictureId = model.PictureId
-                }).SingleOrDefault();
+                }, splitOn: "Id").SingleOrDefault();
 
                 return data;
             }

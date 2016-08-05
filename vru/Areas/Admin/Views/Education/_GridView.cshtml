@@ -1,4 +1,5 @@
-﻿@model VMEducation[]
+﻿@using System.Globalization;
+@model VMEducation[]
 
 
 @Html.SxGridView(Model,
@@ -6,6 +7,7 @@
         {
             Columns = new SxExtantions.SxGridViewColumn<VMEducation>[]{
                 new SxExtantions.SxGridViewColumn<VMEducation>{FieldName="Year", Caption="Год"},
+                new SxExtantions.SxGridViewColumn<VMEducation>{FieldName="Month", Caption="Месяц", Template=x=> { return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(x.Month); } },
                 new SxExtantions.SxGridViewColumn<VMEducation>{FieldName="Html", Caption="Описание", Template=x=> { return Html.Raw(x.Html).ToString(); } },
                 new SxExtantions.SxGridViewColumn<VMEducation>{FieldName="PictureId", Caption="Документ", Template=x=> {
                     return x.Picture==null? null: string.Format("<a data-lightbox=\"roadtrip\" data-title=\"{1}\" data-toggle=\"tooltip\" title=\"Помотреть картинку\" href=\"/pictures/picture/{0}\"><i class=\"fa fa-picture-o\"></i></a>", x.Picture.Id, x.Picture.Caption);

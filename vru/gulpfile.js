@@ -66,10 +66,10 @@ function createCss() {
     //    .pipe(gulp.dest('content/dist/css'));
 
     //by one css
-    //gulp.src([
-
-    //])
-    //    .pipe(gulp.dest('content/dist/css'));
+    gulp.src([
+       'bower_components/lightbox2/dist/css/lightbox.min.css'
+    ])
+        .pipe(gulp.dest('content/dist/css'));
 }
 function createCssAdmin() {
     var lessStream = gulp.src([
@@ -167,7 +167,8 @@ function createJs() {
     gulp.src([
         'bower_components/jquery-validation/dist/jquery.validate.min.js',
         'bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
-        'bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
+        'bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
+        'bower_components/lightbox2/dist/js/lightbox.min.js',
     ])
         .pipe(gulp.dest('content/dist/js'));
 
@@ -212,6 +213,13 @@ function createJsAdmin() {
 
 }
 
+function createImages() {
+    gulp.src([
+        'bower_components/lightbox2/dist/images/**'
+    ])
+    .pipe(gulp.dest('content/dist/images'));
+}
+
 function createImagesAdmin() {
     gulp.src([
         'bower_components/lightbox2/dist/images/**'
@@ -228,6 +236,7 @@ gulp.task('watch', function (cb) {
         createCss();
         createFonts();
         createJs();
+        createImages();
     });
 });
 gulp.task('watchAdmin', function (cb) {

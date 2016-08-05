@@ -1,0 +1,20 @@
+﻿@model VMQuestion
+@{
+    ViewBag.Title = "Задать вопрос или записаться";
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
+}
+
+@section intro{
+    Оставить заявку
+}
+
+<div id="question">
+    @Html.Partial("_Add", Model)
+</div>
+
+
+@section scripts{
+    <script src="~/content/dist/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/content/dist/js/jquery.validate.min.js"></script>
+    <script src="~/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+}

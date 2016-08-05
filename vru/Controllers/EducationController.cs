@@ -1,13 +1,48 @@
-﻿using System.Web.Mvc;
+﻿using SX.WebCore;
+using System.Linq;
+using System.Web.Mvc;
+using vru.Infrastructure.Repositories;
+using vru.Models;
+using vru.ViewModels;
+using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Controllers
 {
     public sealed class EducationController : BaseController
     {
-        [HttpGet]
-        public ActionResult Index()
+        private static RepoEducation _repo;
+        public EducationController()
         {
-            return View();
+            if (_repo == null)
+                _repo = new RepoEducation();
+        }
+
+        private readonly int _pageSize = 10;
+
+        [HttpGet]
+        public ActionResult Index(int page = 1)
+        {
+            var order = new SxOrder { FieldName = "de.[Year], de.[Month]", Direction = SortDirection.Asc };
+            var filter = new SxFilter(page, _pageSize) { Order = order };
+            var totalItems = 0;
+            var data = _repo.Read(filter, out totalItems);
+
+            if (page > 1 && !data.Any())
+                return new HttpNotFoundResult();
+
+            filter.PagerInfo.TotalItems = totalItems;
+            var viewData = data
+                .Select(x => Mapper.Map<Education, VMEducation>(x))
+                .ToArray();
+            var viewModel = new SxPagedCollection<VMEducation>
+            {
+                Collection = viewData,
+                PagerInfo = filter.PagerInfo
+            };
+
+            ViewBag.Filter = filter;
+
+            return View(viewModel);
         }
     }
 }

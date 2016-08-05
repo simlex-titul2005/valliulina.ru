@@ -30,10 +30,18 @@ namespace vru.Controllers
             var filter = new SxFilter(page, _pageSize) { Order = order };
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);
+
+            if (page > 1 && !data.Any())
+                return new HttpNotFoundResult();
+
             filter.PagerInfo.TotalItems = totalItems;
-            var viewModel = data
+            var viewData = data
                 .Select(x => Mapper.Map<Service, VMService>(x))
                 .ToArray();
+            var viewModel = new SxPagedCollection<VMService> {
+                Collection = viewData,
+                PagerInfo= filter.PagerInfo
+            };
 
             ViewBag.Filter = filter;
 
@@ -49,6 +57,23 @@ namespace vru.Controllers
 
             var viewModel = Mapper.Map<Service, VMService>(data);
             return View(viewModel);
+        }
+
+#if !DEBUG
+[OutputCache(Duration =900)]
+#endif
+        [HttpGet, ChildActionOnly]
+        public PartialViewResult MainPageServices(int amount=3)
+        {
+            var order = new SxOrder { FieldName = "Title", Direction = SortDirection.Asc };
+            var filter = new SxFilter(1, 3) { Order = order };
+            var totalItems = 0;
+            var data = _repo.Read(filter, out totalItems);
+            var viewModel = data
+                .Select(x => Mapper.Map<Service, VMService>(x))
+                .ToArray();
+
+            return PartialView("_MainPageServices", viewModel);
         }
     }
 }

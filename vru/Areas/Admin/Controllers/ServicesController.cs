@@ -8,7 +8,7 @@ using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Areas.Admin.Controllers
 {
-    public class ServicesController : BaseController
+    public sealed class ServicesController : BaseController
     {
         private static RepoServices _repo;
         public ServicesController()
@@ -37,7 +37,7 @@ namespace vru.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual PartialViewResult Index(VMService filterModel, SxOrder order, int page = 1)
+        public PartialViewResult Index(VMService filterModel, SxOrder order, int page = 1)
         {
             var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
 

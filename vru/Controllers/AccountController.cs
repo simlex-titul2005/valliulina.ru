@@ -3,7 +3,7 @@ using vru.Infrastructure;
 
 namespace vru.Controllers
 {
-    public class AccountController : SxAccountController<DbContext>
+    public sealed class AccountController : SxAccountController<DbContext>
     {
         
     }

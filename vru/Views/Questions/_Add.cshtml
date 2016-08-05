@@ -3,7 +3,7 @@
     var message = ViewBag.Message;
 }
 
-@using (Ajax.BeginForm("Send", new { controller = "Questions" }, new AjaxOptions { UpdateTargetId = "question", HttpMethod = "post" }, new { @class = "question-form", @autocomplete = "off" }))
+@using (Ajax.BeginForm("Send", new { controller = "Questions" }, new AjaxOptions { UpdateTargetId = "question", HttpMethod = "post", OnSuccess= "$('.question-form__btn').remove()" }, new { @class = "question-form", @autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()
 
@@ -34,7 +34,7 @@
         @Html.ValidationMessageFor(x => x.Text)
     </div>
 
-    <div class="form-group">
+    <div class="form-group question-form__btn">
         <button type="submit" class="btn btn-transparent green">Отправить</button>
     </div>
 
