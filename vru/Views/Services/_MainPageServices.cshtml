@@ -19,8 +19,23 @@
                     @html
                 </div>
                 <div class="hp-services-item__btn">
-                    <a href="@Url.Action("Details", "Services", new { titleUrl=item.TitleUrl})" class="btn btn-sm btn-transparent green">Подробнее <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-</a>
+                    @if (i < Model.Length-1)
+                    {
+                        <a href="@Url.Action("Details", "Services", new { titleUrl = item.TitleUrl })" class="btn btn-sm btn-transparent green">
+                            Подробнее <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="btn-group btn-group-sm">
+                            <a href="@Url.Action("Details", "Services", new { titleUrl = item.TitleUrl })" class="btn btn-sm btn-transparent green">
+                                Подробнее <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="@Url.Action("Index", "Services")" class="btn btn-sm btn-transparent green">
+                                Все услуги <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    }
                 </div>
             </div>
         }

@@ -1,5 +1,4 @@
 ﻿using SX.WebCore;
-using SX.WebCore.Abstract;
 
 namespace vru.Models
 {

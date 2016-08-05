@@ -15,24 +15,28 @@ namespace vru.ViewModels.Abstract
 
         public DateTime DateOfPublication { get; set; }
 
-        [MaxLength(255), Required]
+        [MaxLength(255), Required, Display(Name ="Заголовок")]
         public string Title { get; set; }
 
-        [MaxLength(255), Required]
+        [MaxLength(255), Required, Display(Name = "Строковый ключ")]
         public string TitleUrl { get; set; }
 
+        [Display(Name = "Соддержание"), Required]
         public string Html { get; set; }
 
-        [MaxLength(400)]
+        [MaxLength(400), Display(Name = "Вступление")]
         public string Foreword { get; set; }
 
         public ModelCoreType ModelCoreType { get; set; }
 
+        [Display(Name = "Показывать")]
         public bool Show { get; set; }
 
+        [Display(Name = "Картинка"), UIHint("PicturesLookupGrid")]
         public Guid? FrontPictureId { get; set; }
         public virtual SxVMPicture FrontPicture { get; set; }
 
+        [Display(Name = "Показывать картинку")]
         public bool ShowFrontPictureOnDetailPage { get; set; }
 
         public int ViewsCount { get; set; }
@@ -44,6 +48,7 @@ namespace vru.ViewModels.Abstract
         public virtual SxVMSeoTags SeoTags { get; set; }
         public int? SeoTagsId { get; set; }
 
+        [Display(Name = "Категория"), UIHint("MaterialCategoryLookupGrid")]
         public string CategoryId { get; set; }
 
         public bool IsTop { get; set; }

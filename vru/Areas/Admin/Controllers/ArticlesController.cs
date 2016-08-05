@@ -57,5 +57,24 @@ namespace vru.Areas.Admin.Controllers
 
             return PartialView("_GridView", viewModel);
         }
+
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            var data = id.HasValue ? _repo.GetByKey(id, ModelCoreType.Article) : new Article();
+            if (id.HasValue && data == null)
+                return new HttpNotFoundResult();
+
+            if (data.FrontPicture != null)
+                ViewData["FrontPictureCaption"] = data.FrontPicture.Caption;
+
+            if (data.Category != null)
+                ViewBag.MaterialCategoryTitle = data.Category.Title;
+
+            ViewBag.ModelCoreType = ModelCoreType.Article;
+
+            var viewModel = Mapper.Map<Article, VMArticle>(data);
+            return View(viewModel);
+        }
     }
 }

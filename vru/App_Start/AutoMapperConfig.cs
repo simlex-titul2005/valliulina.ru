@@ -14,6 +14,10 @@ namespace vru
             {
                 return new MapperConfiguration(cfg =>
                 {
+                    //article
+                    cfg.CreateMap<Article, VMArticle>();
+                    cfg.CreateMap<VMArticle, Article>();
+
                     //education
                     cfg.CreateMap<Education, VMEducation>();
                     cfg.CreateMap<VMEducation, Education>();
@@ -51,6 +55,9 @@ namespace vru
                     //situation
                     cfg.CreateMap<Situation, VMSituation>();
                     cfg.CreateMap<VMSituation, Situation>();
+
+                    //situation
+                    cfg.CreateMap<SxAppUser, SxVMAppUser>();
                 });
             }
         }
