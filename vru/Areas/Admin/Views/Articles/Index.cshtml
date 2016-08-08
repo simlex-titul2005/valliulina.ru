@@ -3,6 +3,16 @@
     ViewBag.Title = "Статьи";
 }
 
+@section styles{
+    <link href="~/Areas/Admin/content/dist/css/lightbox.min.css" rel="stylesheet" />
+    <style type="text/css">
+        #grid tbody > tr > td:last-child {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+}
+
 <h1>@ViewBag.Title</h1>
 
 <div id="grid">
@@ -10,6 +20,7 @@
 </div>
 
 @section scripts{
+    <script src="~/Areas/Admin/content/dist/js/lightbox.min.js"></script>
     <script>
         $('#grid').sx_gv();
     </script>

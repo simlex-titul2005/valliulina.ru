@@ -22,6 +22,12 @@ namespace vru
                     cfg.CreateMap<Education, VMEducation>();
                     cfg.CreateMap<VMEducation, Education>();
 
+                    //material category
+                    cfg.CreateMap<SxMaterialCategory, SxVMMaterialCategory>();
+                    cfg.CreateMap<SxVMMaterialCategory, SxMaterialCategory>();
+                    cfg.CreateMap<SxMaterialCategory, SxVMEditMaterialCategory>();
+                    cfg.CreateMap<SxVMEditMaterialCategory, SxMaterialCategory>();
+
                     //picture
                     cfg.CreateMap<SxPicture, SxVMPicture>();
                     cfg.CreateMap<SxVMPicture, SxPicture>();
@@ -58,6 +64,7 @@ namespace vru
 
                     //situation
                     cfg.CreateMap<SxAppUser, SxVMAppUser>();
+                    cfg.CreateMap<SxVMAppUser, SxAppUser>();
                 });
             }
         }

@@ -5,7 +5,7 @@
 @section styles{
     <link href="~/Areas/Admin/content/dist/css/lightbox.min.css" rel="stylesheet" />
     <style>
-        #grid tbody > tr > td:last-child {
+        #grid tbody > tr > td.column-picture, #grid tbody > tr > td.column-order{
             text-align: center;
             vertical-align: middle;
         }
@@ -20,5 +20,18 @@
     <script src="~/Areas/Admin/content/dist/js/lightbox.min.js"></script>
     <script>
         $('#grid').sx_gv();
+
+        function changeEducationOrder(id, dir, page)
+        {
+            $.ajax({
+                url: '@Url.Action("ChangeOrder", "Education")',
+                method:'post',
+                data: { id: id, dir: dir, page: page },
+                success:function(result)
+                {
+                    $('#grid').html(result);
+                }
+            });
+        }
     </script>
 }

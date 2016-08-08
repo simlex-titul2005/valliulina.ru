@@ -1,5 +1,7 @@
-﻿using SX.WebCore;
+﻿using Microsoft.AspNet.Identity;
+using SX.WebCore;
 using SX.WebCore.MvcControllers;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using vru.Infrastructure;
@@ -42,7 +44,12 @@ namespace vru.Areas.Admin.Controllers
         [HttpPost]
         public PartialViewResult Index(VMArticle filterModel, SxOrder order, int page = 1)
         {
-            var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
+            var fct=Request.Form["filterModel[FilterCategoryTitle]"];
+            var filter = new SxFilter(page, _pageSize) {
+                Order = order != null && order.Direction != SortDirection.Unknown ? order : null,
+                WhereExpressionObject = filterModel,
+                AddintionalInfo=new object[] { fct }
+            };
 
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);
@@ -61,12 +68,15 @@ namespace vru.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            var data = id.HasValue ? _repo.GetByKey(id, ModelCoreType.Article) : new Article();
+            var data = id.HasValue ? _repo.GetByKey(id, ModelCoreType.Article) : new Article { ModelCoreType=ModelCoreType.Article};
             if (id.HasValue && data == null)
                 return new HttpNotFoundResult();
 
+            if (!id.HasValue)
+                data.DateOfPublication = DateTime.Now.AddHours(1);
+
             if (data.FrontPicture != null)
-                ViewData["FrontPictureCaption"] = data.FrontPicture.Caption;
+                ViewData["FrontPictureIdCaption"] = data.FrontPicture.Caption;
 
             if (data.Category != null)
                 ViewBag.MaterialCategoryTitle = data.Category.Title;
@@ -75,6 +85,48 @@ namespace vru.Areas.Admin.Controllers
 
             var viewModel = Mapper.Map<Article, VMArticle>(data);
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public  ActionResult Edit(VMArticle model)
+        {
+            var isNew = model.Id == 0;
+            if (isNew || (!isNew && string.IsNullOrEmpty(model.TitleUrl)))
+            {
+                model.TitleUrl = Url.SeoFriendlyUrl(model.Title);
+                ModelState["TitleUrl"].Errors.Clear();
+            }
+
+            if(ModelState.IsValid)
+            {
+                model.UserId = User.Identity.GetUserId();
+
+                var redactModel = Mapper.Map<VMArticle, Article>(model);
+                if (isNew)
+                {
+                    _repo.Create(redactModel);
+                }
+                else
+                    _repo.Update(redactModel, true, "Title", "Show", "DateOfPublication", "CategoryId", "FrontPictureId", "ShowFrontPictureOnDetailPage", "TitleUrl", "Html");
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.ModelCoreType = ModelCoreType.Article;
+                return View(model);
+            }
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public  ActionResult Delete(Article model)
+        {
+            var data = _repo.GetByKey(model.Id, model.ModelCoreType);
+            if (data == null)
+                return new HttpNotFoundResult();
+
+            _repo.Delete(model);
+            return RedirectToAction("Index");
         }
     }
 }

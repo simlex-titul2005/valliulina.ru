@@ -25,7 +25,7 @@ namespace vru.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "de.DateCreate", Direction = SortDirection.Desc };
+            var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);
@@ -107,7 +107,7 @@ namespace vru.Areas.Admin.Controllers
             else return View(model);
         }
 
-        [HttpPost, AllowAnonymous]
+        [HttpPost]
         public ActionResult Delete(Education model)
         {
             var data = _repo.GetByKey(model.Id);
@@ -117,5 +117,24 @@ namespace vru.Areas.Admin.Controllers
             _repo.Delete(model);
             return RedirectToAction("Index");
         }
+
+        //[HttpPost]
+        //public ActionResult ChangeOrder(int id, bool dir, int page=1)
+        //{
+        //    _repo.ChangeOrder(id, dir);
+
+        //    var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
+        //    var filter = new SxFilter(page, _pageSize) { Order = order };
+        //    var totalItems = 0;
+        //    var data = _repo.Read(filter, out totalItems);
+        //    filter.PagerInfo.TotalItems = totalItems;
+        //    var viewModel = data
+        //        .Select(x => Mapper.Map<Education, VMEducation>(x))
+        //        .ToArray();
+
+        //    ViewBag.Filter = filter;
+
+        //    return PartialView("_GridView", viewModel);
+        //}
     }
 }

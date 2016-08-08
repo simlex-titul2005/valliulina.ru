@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Контакты";
-    ViewBag.H1 = ViewBag.Title;
+    ViewBag.Title = ViewBag.Title ?? "Контакты";
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
 }
 
 @section intro{

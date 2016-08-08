@@ -1,6 +1,6 @@
 ﻿@model VMService
 @{
-    ViewBag.Title = Model.Title;
+    ViewBag.Title = ViewBag.Title ?? Model.Title;
     ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
 }
 

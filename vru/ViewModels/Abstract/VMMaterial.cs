@@ -1,6 +1,7 @@
 ﻿using SX.WebCore.ViewModels;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using static SX.WebCore.Enums;
 
 namespace vru.ViewModels.Abstract
@@ -13,18 +14,19 @@ namespace vru.ViewModels.Abstract
 
         public DateTime DateUpdate { get; set; }
 
+        [Display(Name = "Дата публикации"), DataType(DataType.DateTime), UIHint("EditDate")]
         public DateTime DateOfPublication { get; set; }
 
-        [MaxLength(255), Required, Display(Name ="Заголовок")]
+        [MaxLength(255), Required, Display(Name = "Заголовок")]
         public string Title { get; set; }
 
         [MaxLength(255), Required, Display(Name = "Строковый ключ")]
         public string TitleUrl { get; set; }
 
-        [Display(Name = "Соддержание"), Required]
+        [Display(Name = "Соддержание"), Required, DataType(DataType.MultilineText), AllowHtml]
         public string Html { get; set; }
 
-        [MaxLength(400), Display(Name = "Вступление")]
+        [MaxLength(400), Display(Name = "Вступление"), DataType(DataType.MultilineText)]
         public string Foreword { get; set; }
 
         public ModelCoreType ModelCoreType { get; set; }
@@ -45,15 +47,21 @@ namespace vru.ViewModels.Abstract
         [MaxLength(128)]
         public string UserId { get; set; }
 
-        public virtual SxVMSeoTags SeoTags { get; set; }
         public int? SeoTagsId { get; set; }
+        public SxVMSeoTags SeoTags { get; set; }
 
         [Display(Name = "Категория"), UIHint("MaterialCategoryLookupGrid")]
         public string CategoryId { get; set; }
+        public SxVMMaterialCategory Category { get; set; }
 
         public bool IsTop { get; set; }
 
         [MaxLength(255)]
         public string SourceUrl { get; set; }
+
+        public string CatHtml(int? length)
+        {
+            return SX.WebCore.UrlHelperExtensions.CleanHtml(Html, length);
+        }
     }
 }

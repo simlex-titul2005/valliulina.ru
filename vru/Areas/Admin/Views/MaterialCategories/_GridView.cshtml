@@ -1,0 +1,20 @@
+﻿@model SxVMMaterialCategory[]
+@{
+    Enums.ModelCoreType mct = ViewBag.ModelCoreType;
+}
+
+
+@Html.SxGridView(Model,
+        new SxExtantions.SxGridViewSettings<SxVMMaterialCategory>
+        {
+            Columns = new SxExtantions.SxGridViewColumn<SxVMMaterialCategory>[]{
+                new SxExtantions.SxGridViewColumn<SxVMMaterialCategory>{FieldName="Title", Caption="Заголовок"}
+            },
+            EnableCreating = true,
+            CreateRowUrl = Url.Action("Edit", "MaterialCategories", new { mct=mct}),
+            EnableEditing = true,
+            EditRowUrl = x => { return Url.Action("Edit", "MaterialCategories", new { id=x.Id }); },
+            DataAjaxUrl = Url.Action("Index", "MaterialCategories", new { mct = mct }),
+            ShowPagerInfo = true
+        }
+    )

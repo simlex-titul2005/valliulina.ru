@@ -38,7 +38,7 @@ namespace vru.Infrastructure.Repositories
             var gws = getEducationWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new SxOrder { FieldName = "de.[YEAR]", Direction = SortDirection.Desc };
+            var defaultOrder = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
@@ -79,7 +79,7 @@ namespace vru.Infrastructure.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Education, SxPicture, Education>("dbo.add_education @year, @month, @groupName, @html, @pictureId", (e,p)=> {
+                var data = conn.Query<Education, SxPicture, Education>("dbo.add_education @year, @month, @groupName, @html, @pictureId, @order", (e,p)=> {
                     e.Picture = p;
                     return e;
                 }, new
@@ -88,7 +88,8 @@ namespace vru.Infrastructure.Repositories
                     month=model.Month,
                     groupName=model.GroupName,
                     html=model.Html,
-                    pictureId=model.PictureId
+                    pictureId=model.PictureId,
+                    order=model.Order
                 }, splitOn: "Id").SingleOrDefault();
 
                 return data;
@@ -107,7 +108,7 @@ namespace vru.Infrastructure.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Education, SxPicture, Education>("dbo.update_education @educationId, @year, @month, @groupName, @html, @pictureId", (e, p)=> {
+                var data = conn.Query<Education, SxPicture, Education>("dbo.update_education @educationId, @year, @month, @groupName, @html, @pictureId, @order", (e, p)=> {
                     e.Picture = p;
                     return e;
                 }, new
@@ -117,11 +118,20 @@ namespace vru.Infrastructure.Repositories
                     month = model.Month,
                     groupName = model.GroupName,
                     html = model.Html,
-                    pictureId = model.PictureId
+                    pictureId = model.PictureId,
+                    order=model.Order
                 }, splitOn: "Id").SingleOrDefault();
 
                 return data;
             }
         }
+
+        //public void ChangeOrder(int id, bool dir)
+        //{
+        //    using (var connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Execute("dbo.change_education_order @id, @dir", new { id = id, dir = dir });
+        //    }
+        //}
     }
 }

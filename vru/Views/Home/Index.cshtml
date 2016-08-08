@@ -1,6 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Главная";
-    ViewBag.H1 = "Светлана Валлиулина";
+    ViewBag.Title = ViewBag.Title ?? "Главная";
+    ViewBag.H1 = ViewBag.H1 ?? "Светлана Валлиулина";
+    var pictureId = MvcApplication.SiteSettingsProvider.Get(Settings.siteLogoPath);
 }
 
 @section intro{
@@ -10,7 +11,10 @@
 <div class="home-page">
     <div class="home-page__top">
         <figure class="home-page__owner">
-            <img alt="Светлана Валлиулина" class="home-page__owner-img" src="@Url.Action("Picture","Pictures", new { id=MvcApplication.SiteSettingsProvider.Get(Settings.siteLogoPath)})" />
+            @if (pictureId != null)
+            {
+                <img alt="Светлана Валлиулина" class="home-page__owner-img" src="@Url.Action("Picture", "Pictures", new { id = MvcApplication.SiteSettingsProvider.Get(Settings.siteLogoPath) })" />
+            }
             <figcaption>
                 <a class="btn btn-lg btn-transparent green" href="@Url.Action("Edit","Questions")">Записаться</a>
             </figcaption>
@@ -26,7 +30,6 @@
     </div>
 
     <div class="home-page__situations">
-        @Html.Action("MainPageSituations", "Situations", new { amount=(int?)null, maxAmount=30})
+        @Html.Action("MainPageSituations", "Situations", new { amount = (int?)null, maxAmount = 30 })
     </div>
 </div>
-

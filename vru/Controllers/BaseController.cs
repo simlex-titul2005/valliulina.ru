@@ -4,6 +4,7 @@ using vru.Infrastructure;
 
 namespace vru.Controllers
 {
+    [AllowAnonymous]
     public abstract class BaseController : SxBaseController<DbContext>
     {
         public BaseController()

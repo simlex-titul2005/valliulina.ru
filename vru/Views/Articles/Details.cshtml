@@ -1,0 +1,36 @@
+﻿@model VMArticle
+@{
+    ViewBag.Title = ViewBag.Title ?? Model.Title;
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
+    ViewBag.PageImage = ViewBag.PageImage ?? Model.FrontPicture != null ? Url.Action("Picture", "Pictures", new { id = Model.FrontPicture.Id }) : null;
+}
+
+@section intro{
+    Статьи
+}
+
+<article class="article">
+
+    @if (Model.User != null)
+    {
+        <div class="article__author text-muted">
+            Автор: <span class="article__author-name">@Model.User.NikName</span>
+        </div>
+        <hr />
+    }
+
+    @if (Model.FrontPicture != null)
+    {
+        <div class="article__picture">
+            <figure style="background-image:url('@Url.Action("Picture", "Pictures", new { id = Model.FrontPicture.Id })')"></figure>
+        </div>
+        <hr />
+    }
+
+    <div class="article__html">
+        @Html.Raw(Model.Html)
+    </div>
+    <hr />
+
+    @Html.Partial("_ShareButtons")
+</article>

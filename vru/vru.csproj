@@ -178,6 +178,7 @@
     <Content Include="content\dist\images\close.png" />
     <Content Include="content\dist\images\loading.gif" />
     <Content Include="content\dist\images\next.png" />
+    <Content Include="content\dist\images\owner.jpg" />
     <Content Include="content\dist\images\prev.png" />
     <Content Include="content\dist\js\jquery.unobtrusive-ajax.min.js" />
     <Content Include="content\dist\js\jquery.validate.min.js" />
@@ -185,9 +186,10 @@
     <Content Include="content\dist\js\lightbox.min.js" />
     <Content Include="content\dist\js\site.min.js" />
     <Content Include="Global.asax" />
-    <Content Include="packages.config" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
@@ -213,7 +215,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\MaterialCategoriesController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
+    <Compile Include="Controllers\SeoController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\EducationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -226,6 +231,7 @@
     <Compile Include="Infrastructure\Repositories\RepoArticles.cs" />
     <Compile Include="Infrastructure\Repositories\RepoEducation.cs" />
     <Compile Include="Infrastructure\Repositories\RepoMaterialCategory.cs" />
+    <Compile Include="Infrastructure\Repositories\RepoPicture.cs" />
     <Compile Include="Infrastructure\Repositories\RepoQuestions.cs" />
     <Compile Include="Infrastructure\Repositories\RepoSituations.cs" />
     <Compile Include="Infrastructure\Repositories\RepoServices.cs" />
@@ -240,6 +246,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Abstract\VMMaterial.cs" />
     <Compile Include="ViewModels\VMArticle.cs" />
+    <Compile Include="ViewModels\VMCategory.cs" />
     <Compile Include="ViewModels\VMEducation.cs" />
     <Compile Include="ViewModels\VMQuestion.cs" />
     <Compile Include="ViewModels\VMService.cs" />
@@ -283,7 +290,7 @@
     <Content Include="Areas\Admin\Views\Education\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Education\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Pictures\_FindGridView.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\PicturesLookupGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PicturesLookupGrid.cshtml" />
     <Content Include="Areas\Admin\Views\Requests\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Requests\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\SiteSettings\EditSite.cshtml" />
@@ -293,7 +300,6 @@
     <Content Include="Areas\Admin\Views\Redirects\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\SeoTags\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SeoTags\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\SeoTags\_EditForMaterial.cshtml" />
     <Content Include="Areas\Admin\Views\SeoTags\_GeneralEdit.cshtml" />
     <Content Include="Areas\Admin\Views\SeoTags\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\SeoKeywords\_GridView.cshtml" />
@@ -309,8 +315,19 @@
     <Content Include="Areas\Admin\Views\Articles\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\Articles\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Articles\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_MaterialModal.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\MaterialCategoryLookupGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\MaterialCategoryLookupGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Boolean.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\EditDate.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\_TreeView.cshtml" />
+    <Content Include="Views\MaterialCategories\_List.cshtml" />
+    <Content Include="Views\Articles\Details.cshtml" />
+    <Content Include="Views\Shared\_ShareButtons.cshtml" />
+    <None Include="Properties\PublishProfiles\RELEASE.pubxml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -325,7 +342,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Views\MaterialCategories\" />
+    <Folder Include="Views\Seo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,10 +1,35 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    ViewBag.Description = ViewBag.Description ?? MvcApplication.Settings["defDesc"];
+    ViewBag.Keywords = ViewBag.Keywords ?? MvcApplication.Settings["defKeywords"];
+}
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @if (!Request.IsLocal)
+    {
+        <meta name="google-site-verification" content="y0PeEOZDHHVUE4QXgcPtyAUkKeZspFRifUeHeyZUBQI" />
+        <meta name="yandex-verification" content="aa0cd1d895b5e263" />
+    }
+
     <title>@(ViewBag.Title==null? MvcApplication.SiteSettingsProvider.Get(Settings.siteName):ViewBag.Title+" | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName))</title>
+
+    @if (ViewBag.Description != null)
+    {
+        <meta name="description" content="@ViewBag.Description" />
+        <meta property="og:description" content="@ViewBag.Description" />
+    }
+
+    @if (ViewBag.Keywords != null)
+    {
+        <meta name="keywords" content="@ViewBag.Keywords" />
+    }
+
+    <meta property="og:title" content="@(ViewBag.Title==null? MvcApplication.SiteSettingsProvider.Get(Settings.siteName):ViewBag.Title+" | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName))" />
+    <meta property="og:image" content="@(Url.ContentAbsUrl(ViewBag.PageImage!=null? (string)ViewBag.PageImage : "/content/dist/images/owner.jpg"))" />
 
     <link rel="stylesheet" href="~/content/dist/css/site.min.css" />
     @RenderSection("styles", false)

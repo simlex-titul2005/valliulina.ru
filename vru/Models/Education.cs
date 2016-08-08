@@ -18,5 +18,7 @@ namespace vru.Models
 
         public virtual SxPicture Picture { get; set; }
         public Guid? PictureId { get; set; }
+
+        public int Order { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model SxExtantions.SxPagedCollection<VMService>
 @{
-    ViewBag.Title = "Услуги";
-    ViewBag.H1 = ViewBag.Title;
+    ViewBag.Title = ViewBag.Title ?? "Услуги";
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
     VMService item;
     var filter=(SxFilter)ViewBag.Filter;
 }

@@ -75,7 +75,8 @@ function createCssAdmin() {
     var lessStream = gulp.src([
        'Areas/Admin/less/site.less',
        'Areas/Admin/less/sx-gv.less',
-       'Areas/Admin/less/sx-gvl.less'
+       'Areas/Admin/less/sx-gvl.less',
+       'Areas/Admin/less/sx-tv.less'
     ])
         .pipe(less())
         .pipe(cleanCSS({ compatibility: 'ie8' }))
@@ -85,6 +86,7 @@ function createCssAdmin() {
     var cssStream = gulp.src([
         'bower_components/bootstrap/dist/css/bootstrap.min.css',
         'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
+        'bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css',
         'bower_components/font-awesome/css/font-awesome.min.css',
         'bower_components/metisMenu/dist/metisMenu.min.css'
     ])
@@ -145,7 +147,8 @@ function createFontsAdmin() {
 function createJs() {
     var js = gulp.src([
         'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/bootstrap/dist/js/bootstrap.min.js'
+        'bower_components/bootstrap/dist/js/bootstrap.min.js',
+        'bower_components/goodshare/goodshare.min.js'
     ])
         .pipe(concat('js.js'));
 
@@ -177,6 +180,7 @@ function createJsAdmin() {
     var js = gulp.src([
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/bootstrap/dist/js/bootstrap.min.js',
+        'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js',
         'bower_components/metisMenu/dist/metisMenu.min.js'
     ])
         .pipe(concat('js.js'));
@@ -205,7 +209,6 @@ function createJsAdmin() {
         'bower_components/lightbox2/dist/js/lightbox.min.js',
         'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'bower_components/moment/min/moment-with-locales.min.js',
-        //'bower_components/signalr/jquery.signalR.min.js',
         'bower_components/raphael/raphael.min.js',
         'bower_components/morris.js/morris.min.js'
     ])

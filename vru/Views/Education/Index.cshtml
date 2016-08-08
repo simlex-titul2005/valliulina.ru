@@ -1,8 +1,8 @@
 ﻿@using System.Globalization;
 @model SxExtantions.SxPagedCollection<VMEducation>
 @{
-    ViewBag.Title = "Образование";
-    ViewBag.H1 = ViewBag.Title;
+    ViewBag.Title = ViewBag.Title ?? "Образование";
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
     VMEducation item;
     var filter = (SxFilter)ViewBag.Filter;
 }
@@ -28,7 +28,7 @@
             @if (item.Picture != null)
             {
                 <div class="education-in-list__btn">
-                    <a class="btn btn-sm btn-transparent green" data-lightbox="roadtrip" data-title="@(string.Format("{0} - {1}", item.Year, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Month)))" href="@Url.Action("Picture", "Pictures", new { id = item.Picture.Id })" >Показать документ</a>
+                    <a class="btn btn-sm btn-transparent green" data-lightbox="roadtrip" data-title="@(string.Format("{0} - {1} - {2}", item.Year, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Month), item.Order))" href="@Url.Action("Picture", "Pictures", new { id = item.Picture.Id })" >Показать документ</a>
                 </div>
             }
         </div>

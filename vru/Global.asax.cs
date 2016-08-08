@@ -38,6 +38,8 @@ namespace vru
             _settings = new Dictionary<string, string>();
             _settings.Add("phone1", ConfigurationManager.AppSettings["phone1"]);
             _settings.Add("phone2", ConfigurationManager.AppSettings["phone2"]);
+            _settings.Add("defDesc", ConfigurationManager.AppSettings["defDesc"]);
+            _settings.Add("defKeywords", ConfigurationManager.AppSettings["defKeywords"]);
         }
 
         public static DateTime LastStartDate

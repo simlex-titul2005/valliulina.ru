@@ -22,7 +22,7 @@ namespace vru.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "de.[Year], de.[Month]", Direction = SortDirection.Asc };
+            var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
             var totalItems = 0;
             var data = _repo.Read(filter, out totalItems);

@@ -1,0 +1,5 @@
+﻿@model Boolean
+
+<br />
+<input type="hidden" name="@Html.NameForModel()" value="@Model.ToString().ToLower()" />
+<input @(Model ? "checked" : null) data-toggle="toggle" type="checkbox" id="@Html.IdForModel()" data-on="Да" data-off="Нет" data-width="100%" />

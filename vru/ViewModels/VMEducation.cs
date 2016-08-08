@@ -28,5 +28,8 @@ namespace vru.ViewModels
 
         [Display(Name ="Картинка"), UIHint("PicturesLookupGrid")]
         public Guid? PictureId { get; set; }
+
+        [Display(Name = "Порядок отображения"), UIHint("EducationOrder")]
+        public int Order { get; set; }
     }
 }

@@ -12,7 +12,42 @@ namespace vru
             routes.LowercaseUrls = true;
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
+            routes.MapRoute(
+                name: null,
+                url: "robots.txt",
+                defaults: new { controller = "seo", action = "robotstxt", area = "" },
+                namespaces: _defNamespases
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "sitemap.xml",
+                defaults: new { controller = "seo", action = "sitemap", area = "" },
+                namespaces: _defNamespases
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "Articles",
+                defaults: new { controller = "Articles", action = "Index", page=1, area = "" },
+                namespaces: _defNamespases
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "Articles/page{page}",
+                defaults: new { controller = "Articles", action = "Index", page = 1, area = "" },
+                namespaces: _defNamespases
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "Articles/{year}/{month}/{day}/{titleUrl}",
+                defaults: new { controller = "Articles", action = "Details", area = "" },
+                namespaces: _defNamespases
+            );
+
 
             routes.MapRoute(
                 name: null,
