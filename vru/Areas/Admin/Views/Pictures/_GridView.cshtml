@@ -25,7 +25,7 @@
             CreateRowUrl = Url.Action("Edit", "Pictures"),
             EnableEditing = true,
             EditRowUrl = x => { return Url.Action("Edit", "Pictures", new { id=x.Id}); },
-            DataAjaxUrl = Url.Action("Index","Pictures"),
-            ShowPagerInfo=true
+            DataAjaxUrl = Url.Action("Index", "Pictures", new { area = "Admin" }),
+            ShowPagerInfo = true
         }
     )
