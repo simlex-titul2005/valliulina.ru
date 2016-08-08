@@ -212,6 +212,23 @@ a, a:link, a:active, a:visited, a:focus, button, button:link, button:visited, bu
     width: 400px;
     margin: 0 40px 20px 0;
     float: left;
+    @media (max-width: @screen-xs-max) {
+        margin: 0;
+        float:none;
+        width:100%;
+    }
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        
+    }
+
+    @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+        
+    }
+
+    @media (min-width: @screen-lg-min) {
+        
+    }
 }
 
 .home-page__owner figcaption {
