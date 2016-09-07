@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -192,7 +192,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -217,6 +216,7 @@
     <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MaterialCategoriesController.cs" />
+    <Compile Include="Controllers\PicturesController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\SeoController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -231,7 +231,6 @@
     <Compile Include="Infrastructure\Repositories\RepoArticles.cs" />
     <Compile Include="Infrastructure\Repositories\RepoEducation.cs" />
     <Compile Include="Infrastructure\Repositories\RepoMaterialCategory.cs" />
-    <Compile Include="Infrastructure\Repositories\RepoPicture.cs" />
     <Compile Include="Infrastructure\Repositories\RepoQuestions.cs" />
     <Compile Include="Infrastructure\Repositories\RepoSituations.cs" />
     <Compile Include="Infrastructure\Repositories\RepoServices.cs" />
@@ -282,26 +281,15 @@
     <Content Include="Areas\Admin\Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Details.cshtml" />
     <Content Include="Views\Questions\_Add.cshtml" />
-    <Content Include="Areas\Admin\Views\Pictures\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Pictures\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Pictures\_GridView.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Education\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\Education\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Education\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Pictures\_FindGridView.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PicturesLookupGrid.cshtml" />
     <Content Include="Areas\Admin\Views\Requests\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Requests\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\SiteSettings\EditSite.cshtml" />
     <Content Include="Areas\Admin\Views\Seo\EditRobotsFile.cshtml" />
-    <Content Include="Areas\Admin\Views\Redirects\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Redirects\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Redirects\_GridView.cshtml" />
-    <Content Include="Areas\Admin\Views\SeoTags\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\SeoTags\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\SeoTags\_GeneralEdit.cshtml" />
-    <Content Include="Areas\Admin\Views\SeoTags\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\SeoKeywords\_GridView.cshtml" />
     <Content Include="Views\Services\_MainPageServices.cshtml" />
     <Content Include="Areas\Admin\Views\Situations\_GridView.cshtml" />
@@ -318,13 +306,30 @@
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\MaterialCategoryLookupGrid.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Boolean.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\EditDate.cshtml" />
-    <Content Include="Areas\Admin\Views\MaterialCategories\_GridView.cshtml" />
-    <Content Include="Areas\Admin\Views\MaterialCategories\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\MaterialCategories\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\MaterialCategories\_TreeView.cshtml" />
     <Content Include="Views\MaterialCategories\_List.cshtml" />
     <Content Include="Views\Articles\Details.cshtml" />
     <Content Include="Views\Shared\_ShareButtons.cshtml" />
+    <Content Include="packages.config" />
+    <Content Include="Areas\Admin\Views\Pictures\AddMany.cshtml" />
+    <Content Include="Areas\Admin\Views\Pictures\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Pictures\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pictures\_FindGridView.cshtml" />
+    <Content Include="Areas\Admin\Views\Pictures\_FreePictures.cshtml" />
+    <Content Include="Areas\Admin\Views\Pictures\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\_TreeView.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\_TreeViewEditable.cshtml" />
+    <Content Include="Areas\Admin\Views\MaterialCategories\_TreeViewMenu.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\_EditForMaterial.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\_GeneralEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\SeoTags\_GridView.cshtml" />
+    <Content Include="Areas\Admin\Views\Redirects\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Redirects\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Redirects\_GridView.cshtml" />
+    <None Include="Properties\PublishProfiles\PROD.pubxml" />
     <None Include="Properties\PublishProfiles\RELEASE.pubxml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\ServerError.cshtml" />
@@ -342,6 +347,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Pictures\" />
     <Folder Include="Views\Seo\" />
   </ItemGroup>
   <PropertyGroup>

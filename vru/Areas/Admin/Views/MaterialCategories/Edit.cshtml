@@ -1,31 +1,51 @@
-﻿@model SxVMEditMaterialCategory
+﻿@model SxVMMaterialCategory
 @{
-    var isNew = string.IsNullOrEmpty(Model.Id);
+    var isNew = Model.Id == null;
     ViewBag.Title = isNew ? "Добавить категорию" : "Редактировать категорию \"" + Model.Title + "\"";
-    Enums.ModelCoreType mct = ViewBag.ModelCoreType;
+    var forAphorism = Model.ModelCoreType == Enums.ModelCoreType.Aphorism;
 }
 
-<h1>@ViewBag.Title</h1>
+@section styles{
+    <link href="~/Areas/Admin/content/dist/css/lightbox.min.css" rel="stylesheet" />
+}
+
+<h2>@ViewBag.Title</h2>
 
 @if (!isNew)
 {
-    <div class="text-right">
-        <div class="form-group">
-            <form method="post" action="@Url.Action("Delete","MaterialCategories")">
+    <div class="form-group">
+        <div class="text-right">
+            <form method="post" action="@Url.Action("Delete", "MaterialCategories")">
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(x => x.Id)
-                @Html.HiddenFor(x=>x.ModelCoreType)
-                <button class="btn btn-danger" type="submit" onclick="if (!confirm('Удалить запись?')) { return false;}">Удалить</button>
+                @Html.HiddenFor(x => x.ModelCoreType)
+                <button type="submit" class="btn btn-danger" onclick="if (!confirm('Удалить запись?')) return false;">Удалить</button>
             </form>
         </div>
     </div>
 }
 
-<form method="post" action="@Url.Action("Edit","MaterialCategories")">
+<form method="post" action="@Url.Action("Edit", "MaterialCategories")" autocomplete="off">
     @Html.AntiForgeryToken()
 
+    @Html.HiddenFor(x => x.ParentCategoryId)
     @Html.HiddenFor(x => x.ModelCoreType)
-    <input type="hidden" name="OldId" value="@Model.Id" />
+    @if (!isNew && !User.IsInRole("architect"))
+    {
+        @Html.HiddenFor(x => x.Id)
+    }
+
+    @if (!isNew && User.IsInRole("architect"))
+    {
+        <input type="hidden" name="OldId" value="@Model.Id" />
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Id, new { @class = "control-label" })
+            <span class="text-info"> (не должен содержать кириллицы и любых знаков, кроме тире)</span>
+            @Html.EditorFor(x => x.Id, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите идентификатор категории" } })
+            @Html.ValidationMessageFor(x => x.Id)
+        </div>
+    }
 
     <div class="form-group">
         @Html.LabelFor(x => x.Title, new { @class = "control-label" })
@@ -33,43 +53,33 @@
         @Html.ValidationMessageFor(x => x.Title)
     </div>
 
-    @if (isNew)
-    {
-        @Html.HiddenFor(x => x.Id)
-    }
-    else
-    {
-        <div class="form-group">
-            @Html.LabelFor(x => x.Id, new { @class = "control-label" })
-            @Html.EditorFor(x => x.Id, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите строковый ключ" } })
-            @Html.ValidationMessageFor(x => x.Id)
+    <div class="row">
+        <div class="col-md-@(forAphorism?6:12)">
+            <div class="form-group">
+                @Html.LabelFor(x => x.FrontPictureId, new { @class = "control-label" })
+                @if (Model.FrontPictureId.HasValue)
+                {
+                    <a data-original-title="Помотреть картинку" onclick="x()" data-lightbox="roadtrip" data-title="Иконка @Model.Title" data-toggle="tooltip" title="" href="/pictures/picture/@Model.FrontPictureId"><i class="fa fa-picture-o"></i></a>
+                }
+                @Html.EditorFor(x => x.FrontPictureId, new { htmlAttributes = new { @class = "form-control", @placeholder = "Выберите изображение" } })
+                @Html.ValidationMessageFor(x => x.FrontPictureId)
+            </div>
         </div>
-
-        <div class="alert alert-warning">
-            <strong>Внимание!</strong> Идентификатор задается автоматически на основе заголовка категории. При изменению ключа изменяется канонический адрес страницы. Поэтому если страница является важной, то после изменения ключа необходимо добавить 301 редирект со старого адреса на новый, на который будет указывать измененный ключ.
-        </div>
-    }
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.FrontPictureId, new { @class = "control-label" })
-        @Html.EditorFor(x => x.FrontPictureId, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(x => x.FrontPictureId)
     </div>
 
     <div class="form-group">
-        <button class="btn btn-primary" type="submit">@(isNew ? "Добавить" : "Сохранить")</button>
-        <a href="@Url.Action("Index", new { mct=mct})" class="btn btn-default">Назад</a>
+        <button type="submit" class="btn btn-primary">@(isNew ? "Добавить" : "Сохранить")</button>
+        @Html.ActionLink("Назад", "Index", "MaterialCategories", new { mct = Model.ModelCoreType }, new { @class = "btn btn-default" })
     </div>
-
 </form>
 
 @section scripts{
+    <script src="~/Areas/Admin/content/dist/js/lightbox.min.js"></script>
     <script src="~/Areas/Admin/content/dist/js/jquery.validate.min.js"></script>
     <script src="~/Areas/Admin/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
     <script>
         $(function () {
-            $('#FrontPictureId').sx_gvl();
+            $('#FrontPictureId, #GameId').sx_gvl();
         });
     </script>
 }
-

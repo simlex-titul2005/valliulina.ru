@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@(ViewBag.Title == null ? "admin | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName) : ViewBag.Title + " | "+Settings.adminPanelName+" | " + MvcApplication.SiteSettingsProvider.Get(Settings.siteName))</title>
+    <title>@(ViewBag.Title == null ? "admin | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName).Value : ViewBag.Title + " | "+Settings.adminPanelName+" | " + MvcApplication.SiteSettingsProvider.Get(Settings.siteName).Value)</title>
 
     <link href="~/Areas/Admin/content/dist/css/site.min.css" rel="stylesheet" />
     @RenderSection("styles", false)

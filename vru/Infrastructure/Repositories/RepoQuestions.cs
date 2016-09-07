@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vru.Models;
+using vru.ViewModels;
 using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoQuestions : SxDbRepository<int, Question, DbContext>
+    public sealed class RepoQuestions : SxDbRepository<int, Question, DbContext, VMQuestion>
     {
         public override Question GetByKey(params object[] id)
         {
@@ -57,7 +58,7 @@ namespace vru.Infrastructure.Repositories
             }
         }
 
-        public override Question[] Read(SxFilter filter, out int allCount)
+        public override VMQuestion[] Read(SxFilter filter)
         {
             var sb = new StringBuilder();
             sb.Append(SxQueryProvider.GetSelectString());
@@ -79,8 +80,8 @@ namespace vru.Infrastructure.Repositories
 
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Question>(sb.ToString(), param: param);
-                allCount = conn.Query<int>(sbCount.ToString(), param: param).SingleOrDefault();
+                var data = conn.Query<VMQuestion>(sb.ToString(), param: param);
+                filter.PagerInfo.TotalItems = conn.Query<int>(sbCount.ToString(), param: param).SingleOrDefault();
                 return data.ToArray();
             }
         }

@@ -25,11 +25,7 @@ namespace vru.Controllers
         {
             var order = new SxOrder { FieldName = "ds.[Text]", Direction = SortDirection.Asc };
             var filter = new SxFilter(1, amount.HasValue ? (int)amount : maxAmount) { Order = order };
-            var totalItems = 0;
-            var data = _repo.Read(filter, out totalItems);
-            var viewModel = data
-                .Select(x => Mapper.Map<Situation, VMSituation>(x))
-                .ToArray();
+            var viewModel = _repo.Read(filter);
 
             return PartialView("_MainPageSituations", viewModel);
         }

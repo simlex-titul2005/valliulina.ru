@@ -1,4 +1,4 @@
-﻿@model SxVMEditSeoTags
+﻿@model SxVMSeoTags
 @{
     var isNew = Model.Id == 0;
     ViewBag.Title = isNew ? "Добавить SEO теги" : "Редактировать SEO теги для адреса\"" + Model.RawUrl + "\"";
@@ -7,11 +7,15 @@
 <br />
 @if (!isNew)
 {
-    <form method="post" action="@Url.Action("Delete","SeoTags")">
-        @Html.HiddenFor(x => x.Id)
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-danger pull-right" onclick="if(!confirm('Удалить запись?')) return false;">Удалить</button>
-    </form>
+    <div class="form-group">
+        <div class="text-right">
+            <form method="post" action="@Url.Action("Delete","SeoTags")">
+                @Html.HiddenFor(x => x.Id)
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger" onclick="if(!confirm('Удалить запись?')) return false;">Удалить</button>
+            </form>
+        </div>
+    </div>
 }
 <form method="post" action="@Url.Action("Edit","SeoTags")">
     @Html.AntiForgeryToken()
@@ -30,7 +34,7 @@
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">@(Model.Id == 0 ? "Добавить" : "Сохранить")</button>
-        @Html.RouteLink("Назад", new { action = "Index" }, new { @class = "btn btn-default" })
+        <a href="@Url.Action("Index","SeoTags")" class="btn btn-default">Назад</a>
     </div>
 </form>
 

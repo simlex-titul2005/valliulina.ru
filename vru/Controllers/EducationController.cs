@@ -22,18 +22,13 @@ namespace vru.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
+            var order = new SxOrder { FieldName = "Order", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
-            var totalItems = 0;
-            var data = _repo.Read(filter, out totalItems);
+            var viewData = _repo.Read(filter);
 
-            if (page > 1 && !data.Any())
+            if (page > 1 && !viewData.Any())
                 return new HttpNotFoundResult();
 
-            filter.PagerInfo.TotalItems = totalItems;
-            var viewData = data
-                .Select(x => Mapper.Map<Education, VMEducation>(x))
-                .ToArray();
             var viewModel = new SxPagedCollection<VMEducation>
             {
                 Collection = viewData,

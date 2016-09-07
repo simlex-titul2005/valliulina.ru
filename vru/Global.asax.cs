@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
-using SX.WebCore.MvcApplication;
-using SX.WebCore.Repositories;
+﻿using SX.WebCore.MvcApplication;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Entity;
+using vru.Models;
+using vru.ViewModels;
 
 namespace vru
 {
@@ -13,8 +12,6 @@ namespace vru
         private static Dictionary<string, string> _settings;
         public static Dictionary<string, string> Settings { get { return _settings; } }
 
-        private static DateTime _lastStartDate;
-
         protected override void Application_Start(object sender, EventArgs e)
         {
             fillSettings();
@@ -22,15 +19,30 @@ namespace vru
             var args = new SxApplicationEventArgs();
             args.WebApiConfigRegister = WebApiConfig.Register;
             args.RegisterRoutes = RouteConfig.RegisterRoutes;
-            args.MapperConfiguration = AutoMapperConfig.MapperConfigurationInstance;
-            args.LogDirectory = null;
             args.LoggingRequest = true;
-            base.Application_Start(sender, args);
+            args.MapperConfigurationExpression = (cfg) =>
+            {
+                //article
+                cfg.CreateMap<Article, VMArticle>();
+                cfg.CreateMap<VMArticle, Article>();
 
-            _lastStartDate = DateTime.Now;
-            Database.SetInitializer<Infrastructure.DbContext>(null);
-            var siteDomainItem = new SxRepoSiteSetting<Infrastructure.DbContext>().GetByKey("siteDomain");
-            SiteDomain = siteDomainItem?.Value;
+                //education
+                cfg.CreateMap<Education, VMEducation>();
+                cfg.CreateMap<VMEducation, Education>();
+
+                //question
+                cfg.CreateMap<Question, VMQuestion>();
+                cfg.CreateMap<VMQuestion, Question>();
+
+                //service
+                cfg.CreateMap<Service, VMService>();
+                cfg.CreateMap<VMService, Service>();
+
+                //situation
+                cfg.CreateMap<Situation, VMSituation>();
+                cfg.CreateMap<VMSituation, Situation>();
+            };
+            base.Application_Start(sender, args);
         }
 
         private static void fillSettings()
@@ -40,31 +52,6 @@ namespace vru
             _settings.Add("phone2", ConfigurationManager.AppSettings["phone2"]);
             _settings.Add("defDesc", ConfigurationManager.AppSettings["defDesc"]);
             _settings.Add("defKeywords", ConfigurationManager.AppSettings["defKeywords"]);
-        }
-
-        public static DateTime LastStartDate
-        {
-            get
-            {
-                return _lastStartDate;
-            }
-        }
-
-        protected override void Session_Start()
-        {
-            var sessionId = Session.SessionID;
-            if (!UsersOnSite.ContainsKey(sessionId))
-                UsersOnSite.Add(sessionId, null);
-
-            if (User.Identity.IsAuthenticated)
-                UsersOnSite[sessionId] = User.Identity.GetUserName();
-        }
-
-        protected override void Session_End()
-        {
-            var sessionId = Session.SessionID;
-            if (UsersOnSite.ContainsKey(sessionId))
-                UsersOnSite.Remove(sessionId);
         }
     }
 }

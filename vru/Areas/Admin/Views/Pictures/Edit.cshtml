@@ -1,4 +1,4 @@
-﻿@model SxVMEditPicture
+﻿@model SxVMPicture
 @{
     var isNew = Model.Id == Guid.Empty;
 }
@@ -8,14 +8,14 @@
 </h2>
 @if (!isNew)
 {
-    <form method="post" action="/pictures/delete">
+    <form method="post" action="@Url.Action("Delete", "Pictures")">
         @Html.AntiForgeryToken()
         @Html.HiddenFor(x => x.Id)
         <button type="submit" class="btn btn-danger pull-right" onclick="if(!confirm('Удалить запись?')){return false;}">Удалить фото</button>
     </form>
 }
 <br />
-<form method="post" action="edit" enctype="multipart/form-data">
+<form method="post" action="@Url.Action("Edit", "Pictures")" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Id)
     @Html.HiddenFor(x => x.ImgFormat)
@@ -60,13 +60,15 @@
         <div class="col-md-12">
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">@(Model.Id == Guid.Empty ? "Добавить" : "Сохранить")</button>
-                @Html.RouteLink("Назад", new { action = "Index" }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Index", "Pictures")" class="btn btn-default">Назад</a>
             </div>
         </div>
     </div>
 </form>
 
 @section scripts{
+    <script src="~/Areas/Admin/content/dist/js/jquery.validate.min.js"></script>
+    <script src="~/Areas/Admin/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $('[type="file"]').change(function (e) {

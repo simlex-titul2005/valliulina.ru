@@ -1,16 +1,22 @@
 ﻿@model SxVMMaterialCategory[]
 @{
-    ViewBag.Title = "Категории статей";
+    Enums.ModelCoreType mct = ViewBag.ModelCoreType;
+    string title = ViewBag.PageTitle;
 }
 
-<h1>@ViewBag.Title</h1>
+<h2>@title</h2>
+<br />
 
-<div id="grid">
-    @Html.Partial("_GridView", Model)
+<div id="matcat-tv">
+    @Html.Partial("_TreeViewEditable", Model)
 </div>
 
 @section scripts{
-    <script>
-        $('#grid').sx_gv();
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body'
+            });
+        });
     </script>
 }

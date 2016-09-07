@@ -68,12 +68,18 @@ namespace vru.Controllers
             var mm = new SxAppMailManager(smtpUserName, ConfigurationManager.AppSettings["NoReplyMailPassword"], "mail.valliulina.ru");
 
             var sb = new StringBuilder();
-            sb.AppendLine(model.Name);
-            sb.AppendLine(model.Text);
-            sb.AppendLine(model.Email);
-            sb.AppendLine(model.Phone);
+            sb.AppendFormat("<p>Имя: {0}</p>", model.Name);
+            sb.AppendFormat("<p>Текст: {0}</p>", model.Text);
+            sb.AppendFormat("<p>Email: {0}</p>", model.Email);
+            sb.AppendFormat("<p>Телефон: {0}</p>", model.Phone);
 
-            return await mm.SendMail(model.Email, sb.ToString(), new string[] { "jdsl24221@ya.ru" }, "Обращение с формы обратной связи");
+            return await mm.SendMail(
+                mailFrom: smtpUserName,
+                mailsTo: new string[] { "jdsl24221@ya.ru" },
+                subject: "Обращение с формы обратной связи",
+                body: sb.ToString(),
+                isBodyHtml: true
+                );
         }
     }
 }

@@ -2,15 +2,17 @@
 using SX.WebCore;
 using SX.WebCore.Abstract;
 using SX.WebCore.Providers;
+using SX.WebCore.ViewModels;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using vru.Models;
+using vru.ViewModels;
 using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoEducation : SxDbRepository<int, Education, DbContext>
+    public sealed class RepoEducation : SxDbRepository<int, Education, DbContext, VMEducation>
     {
         public override Education GetByKey(params object[] id)
         {
@@ -28,7 +30,7 @@ namespace vru.Infrastructure.Repositories
             }
         }
 
-        public override Education[] Read(SxFilter filter, out int allCount)
+        public override VMEducation[] Read(SxFilter filter)
         {
             var sb = new StringBuilder();
             sb.Append(SxQueryProvider.GetSelectString());
@@ -38,8 +40,10 @@ namespace vru.Infrastructure.Repositories
             var gws = getEducationWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
-            sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
+            var defaultOrder = new SxOrder { FieldName = "Order", Direction = SortDirection.Desc };
+            sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order, new System.Collections.Generic.Dictionary<string, string> {
+                { "Order", "de.[Order]"}
+            }));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
 
@@ -50,11 +54,11 @@ namespace vru.Infrastructure.Repositories
 
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var data = conn.Query<Education, SxPicture, Education>(sb.ToString(), (e,p)=> {
+                var data = conn.Query<VMEducation, SxVMPicture, VMEducation>(sb.ToString(), (e,p)=> {
                     e.Picture = p;
                     return e;
                 }, param: param, splitOn:"Id");
-                allCount = conn.Query<int>(sbCount.ToString(), param: param).SingleOrDefault();
+                filter.PagerInfo.TotalItems = conn.Query<int>(sbCount.ToString(), param: param).SingleOrDefault();
                 return data.ToArray();
             }
         }
@@ -125,13 +129,5 @@ namespace vru.Infrastructure.Repositories
                 return data;
             }
         }
-
-        //public void ChangeOrder(int id, bool dir)
-        //{
-        //    using (var connection = new SqlConnection(ConnectionString))
-        //    {
-        //        connection.Execute("dbo.change_education_order @id, @dir", new { id = id, dir = dir });
-        //    }
-        //}
     }
 }

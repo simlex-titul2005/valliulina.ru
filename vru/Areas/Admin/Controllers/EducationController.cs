@@ -27,12 +27,7 @@ namespace vru.Areas.Admin.Controllers
         {
             var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
-            var totalItems = 0;
-            var data = _repo.Read(filter, out totalItems);
-            filter.PagerInfo.TotalItems = totalItems;
-            var viewModel = data
-                .Select(x => Mapper.Map<Education, VMEducation>(x))
-                .ToArray();
+            var viewModel = _repo.Read(filter);
 
             ViewBag.Filter = filter;
 
@@ -44,14 +39,8 @@ namespace vru.Areas.Admin.Controllers
         {
             var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
 
-            var totalItems = 0;
-            var data = _repo.Read(filter, out totalItems);
-            filter.PagerInfo.TotalItems = totalItems;
+            var viewModel = _repo.Read(filter);
             filter.PagerInfo.Page = filter.PagerInfo.TotalItems <= _pageSize ? 1 : page;
-
-            var viewModel = data
-                .Select(x => Mapper.Map<Education, VMEducation>(x))
-                .ToArray();
 
             ViewBag.Filter = filter;
 

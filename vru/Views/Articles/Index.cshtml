@@ -52,11 +52,11 @@
                             </div>
                             <hr />
                             <div class="article-in-list__fwd">
-                                @Html.Raw(item.CatHtml(500))
+                                @Html.Raw(item.GetForewordFromHtml(500))
                             </div>
                             <hr />
                             <div class="text-right">
-                                <a class="btn btn-transparent green" href="@Url.Action("Details", "Articles", new { year=item.DateCreate.Year, month=item.DateCreate.Month.ToString("00"), day=item.DateCreate.Day.ToString("00"), titleUrl=item.TitleUrl})">Подробнее <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                <a class="btn btn-transparent green" href="@item.GetUrl(Url)">Подробнее <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>
