@@ -1,17 +1,21 @@
-﻿using SX.WebCore.MvcControllers;
+﻿using System;
+using SX.WebCore.MvcControllers;
 using vru.ViewModels;
 using static SX.WebCore.Enums;
 
 namespace vru.Controllers
 {
-    public class SeoController : SxSeoController
+    public sealed class SeoController : SxSeoController
     {
-        public SeoController()
+        protected override Func<dynamic, string> SeoItemUrlFunc
         {
-            SeoItemUrlFunc = SeoItemUrl;
+            get
+            {
+                return model => { return getSeoItemUrl(model); };
+            }
         }
 
-        public string SeoItemUrl(dynamic model)
+        private string getSeoItemUrl(dynamic model)
         {
             var mct = (ModelCoreType)model.ModelCoreType;
             switch (mct)
