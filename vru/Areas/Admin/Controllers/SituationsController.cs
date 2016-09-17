@@ -1,8 +1,7 @@
 ﻿using SX.WebCore;
-using SX.WebCore.MvcControllers;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using vru.Infrastructure;
 using vru.Infrastructure.Repositories;
 using vru.Models;
 using vru.ViewModels;
@@ -27,7 +26,10 @@ namespace vru.Areas.Admin.Controllers
         {
             var order = new SxOrder { FieldName = "ds.[Text]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
+
             var viewModel = _repo.Read(filter);
+            if (page > 1 && !viewModel.Any())
+                return new HttpNotFoundResult();
 
             ViewBag.Filter = filter;
 
@@ -35,12 +37,13 @@ namespace vru.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult Index(VMSituation filterModel, SxOrder order, int page = 1)
+        public async Task<ActionResult> Index(VMSituation filterModel, SxOrder order, int page = 1)
         {
             var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
 
-            var viewModel = _repo.Read(filter);
-            filter.PagerInfo.Page = filter.PagerInfo.TotalItems <= _pageSize ? 1 : page;
+            var viewModel = await _repo.ReadAsync(filter);
+            if (page > 1 && !viewModel.Any())
+                return new HttpNotFoundResult();
 
             ViewBag.Filter = filter;
 

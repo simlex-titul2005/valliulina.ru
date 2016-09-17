@@ -1,11 +1,11 @@
-﻿using SX.WebCore.MvcControllers;
+﻿using SX.WebCore.MvcControllers.Abstract;
 using System.Web.Mvc;
 using vru.Infrastructure;
 
 namespace vru.Controllers
 {
     [AllowAnonymous]
-    public abstract class BaseController : SxBaseController<DbContext>
+    public abstract class BaseController : SxBaseController
     {
         public BaseController()
         {

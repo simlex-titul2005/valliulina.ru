@@ -28,11 +28,11 @@ namespace vru.Controllers
         {
             var order = new SxOrder { FieldName = "Title", Direction = SortDirection.Asc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
-            var viewData = _repo.Read(filter);
 
+            var viewData = _repo.Read(filter);
             if (page > 1 && !viewData.Any())
                 return new HttpNotFoundResult();
-           
+
             var viewModel = new SxPagedCollection<VMService> {
                 Collection = viewData,
                 PagerInfo= filter.PagerInfo
@@ -62,6 +62,7 @@ namespace vru.Controllers
         {
             var order = new SxOrder { FieldName = "Title", Direction = SortDirection.Asc };
             var filter = new SxFilter(1, 3) { Order = order };
+            
             var viewModel = _repo.Read(filter);
 
             return PartialView("_MainPageServices", viewModel);

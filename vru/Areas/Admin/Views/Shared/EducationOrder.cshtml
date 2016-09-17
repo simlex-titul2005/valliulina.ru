@@ -1,9 +1,0 @@
-﻿@model VMEducation
-@{
-    var page = (int)ViewData["Page"];
-}
-
-<div class="btn-group">
-    <button type="button" class="btn  btn-default" title="Увеличить" onclick="changeEducationOrder(@Model.Id, true, @page)"><i class="fa fa-caret-up" aria-hidden="true"></i></button>
-    <button type="button" class="btn  btn-default" title="Уменьшить" onclick="changeEducationOrder(@Model.Id, false, @page)"><i class="fa fa-caret-down" aria-hidden="true"></i></button>
-</div>

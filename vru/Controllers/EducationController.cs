@@ -22,10 +22,10 @@ namespace vru.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "Order", Direction = SortDirection.Desc };
+            var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
-            var viewData = _repo.Read(filter);
 
+            var viewData = _repo.Read(filter);
             if (page > 1 && !viewData.Any())
                 return new HttpNotFoundResult();
 

@@ -2,6 +2,7 @@
 using SX.WebCore;
 using SX.WebCore.Abstract;
 using SX.WebCore.Providers;
+using SX.WebCore.Repositories.Abstract;
 using SX.WebCore.ViewModels;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,7 +13,7 @@ using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoEducation : SxDbRepository<int, Education, DbContext, VMEducation>
+    public sealed class RepoEducation : SxDbRepository<int, Education, VMEducation>
     {
         public override Education GetByKey(params object[] id)
         {
@@ -40,10 +41,8 @@ namespace vru.Infrastructure.Repositories
             var gws = getEducationWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new SxOrder { FieldName = "Order", Direction = SortDirection.Desc };
-            sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order, new System.Collections.Generic.Dictionary<string, string> {
-                { "Order", "de.[Order]"}
-            }));
+            var defaultOrder = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
+            sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
 
@@ -58,6 +57,7 @@ namespace vru.Infrastructure.Repositories
                     e.Picture = p;
                     return e;
                 }, param: param, splitOn:"Id");
+
                 filter.PagerInfo.TotalItems = conn.Query<int>(sbCount.ToString(), param: param).SingleOrDefault();
                 return data.ToArray();
             }
@@ -69,7 +69,7 @@ namespace vru.Infrastructure.Repositories
             string query = null;
             query += " WHERE (de.Html LIKE '%'+@html+'%' OR @html IS NULL) ";
 
-            var html = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Html != null ? (string)filter.WhereExpressionObject.Html : null;
+            string html = filter.WhereExpressionObject?.Html;
 
             param = new
             {
@@ -129,5 +129,13 @@ namespace vru.Infrastructure.Repositories
                 return data;
             }
         }
+
+        //public void ChangeOrder(int id, bool dir)
+        //{
+        //    using (var connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Execute("dbo.change_education_order @id, @dir", new { id = id, dir = dir });
+        //    }
+        //}
     }
 }

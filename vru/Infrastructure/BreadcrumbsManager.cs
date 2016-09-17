@@ -1,4 +1,4 @@
-﻿using SX.WebCore.MvcControllers;
+﻿using SX.WebCore.MvcControllers.Abstract;
 using SX.WebCore.ViewModels;
 using System.Collections.Generic;
 
@@ -6,7 +6,7 @@ namespace vru.Infrastructure
 {
     public static class BreadcrumbsManager
     {
-        public static void WriteBreadcrumbs(SxBaseController<DbContext> controller)
+        public static void WriteBreadcrumbs(this SxBaseController controller)
         {
             if (controller.ControllerContext.IsChildAction) return;
 

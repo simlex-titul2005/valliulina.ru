@@ -2,13 +2,12 @@
 using SX.WebCore.ViewModels;
 using System.Linq;
 using System.Web.Mvc;
-using vru.Infrastructure;
 using vru.Infrastructure.Repositories;
 using vru.ViewModels;
 
 namespace vru.Controllers
 {
-    public sealed class MaterialCategoriesController : SxMaterialCategoriesController<DbContext, SxVMMaterialCategory>
+    public sealed class MaterialCategoriesController : SxMaterialCategoriesController<SxVMMaterialCategory>
     {
         public MaterialCategoriesController()
         {
@@ -19,12 +18,10 @@ namespace vru.Controllers
         [ChildActionOnly, AllowAnonymous]
         public PartialViewResult List(string current = null)
         {
-            var data = Repo.All.Where(x => x.ParentCategoryId == null).ToArray();
-
-            var viewModel = data.Select(x => new VMCategory
+            var viewModel = (Repo as RepoMaterialCategory).All.Select(x => new VMCategory
             {
                 Title = x.Title,
-                Url = Url.Action("Index", "Articles", new { c = x.Id }),
+                Url = Url.Action("Index", "Articles", new { cat = x.Id }),
                 IsCurrent=current==x.Id
             }).ToArray();
 

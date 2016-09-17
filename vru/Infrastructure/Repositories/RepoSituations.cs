@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using SX.WebCore;
-using SX.WebCore.Abstract;
 using SX.WebCore.Providers;
+using SX.WebCore.Repositories.Abstract;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -11,7 +11,7 @@ using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoSituations : SxDbRepository<int, Situation, DbContext, VMSituation>
+    public sealed class RepoSituations : SxDbRepository<int, Situation, VMSituation>
     {
         public override VMSituation[] Read(SxFilter filter)
         {
@@ -47,7 +47,7 @@ namespace vru.Infrastructure.Repositories
             string query = null;
             query += " WHERE (ds.[Text] LIKE '%'+@text+'%' OR @text IS NULL) ";
 
-            var text = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Text != null ? (string)filter.WhereExpressionObject.Text : null;
+            string text = filter.WhereExpressionObject?.Text;
 
             param = new
             {

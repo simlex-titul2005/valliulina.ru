@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using SX.WebCore;
-using SX.WebCore.Abstract;
 using SX.WebCore.Providers;
+using SX.WebCore.Repositories.Abstract;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,7 +12,7 @@ using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoQuestions : SxDbRepository<int, Question, DbContext, VMQuestion>
+    public sealed class RepoQuestions : SxDbRepository<int, Question, VMQuestion>
     {
         public override Question GetByKey(params object[] id)
         {
@@ -95,10 +95,10 @@ namespace vru.Infrastructure.Repositories
             query += " AND (dq.[Phone] LIKE '%'+@phone+'%' OR @phone IS NULL) ";
             query += " AND (dq.[Text] LIKE '%'+@text+'%' OR @text IS NULL) ";
 
-            var name = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Name != null ? (string)filter.WhereExpressionObject.Name : null;
-            var email = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Email != null ? (string)filter.WhereExpressionObject.Email : null;
-            var phone = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Phone != null ? (string)filter.WhereExpressionObject.Phone : null;
-            var text = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Text != null ? (string)filter.WhereExpressionObject.Text : null;
+            string name = filter.WhereExpressionObject?.Name;
+            string email = filter.WhereExpressionObject?.Email;
+            string phone = filter.WhereExpressionObject?.Phone;
+            string text = filter.WhereExpressionObject?.Text;
 
             param = new
             {

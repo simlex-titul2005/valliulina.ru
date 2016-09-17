@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using vru.Models;
-using vru.ViewModels;
 
 namespace vru
 {
-    public class MvcApplication : SxApplication<Infrastructure.DbContext>
+    public class MvcApplication : SxMvcApplication
     {
         private static Dictionary<string, string> _settings;
         public static Dictionary<string, string> Settings { get { return _settings; } }
@@ -17,31 +15,15 @@ namespace vru
             fillSettings();
 
             var args = new SxApplicationEventArgs();
+            args.GetDbContextInstance = () => { return new Infrastructure.DbContext(); };
             args.WebApiConfigRegister = WebApiConfig.Register;
-            args.RegisterRoutes = RouteConfig.RegisterRoutes;
-            args.LoggingRequest = true;
-            args.MapperConfigurationExpression = (cfg) =>
-            {
-                //article
-                cfg.CreateMap<Article, VMArticle>();
-                cfg.CreateMap<VMArticle, Article>();
+            args.MapperConfigurationExpression = cfg => { AutoMapperConfig.Register(cfg); };
 
-                //education
-                cfg.CreateMap<Education, VMEducation>();
-                cfg.CreateMap<VMEducation, Education>();
+            //routes
+            args.DefaultControllerNamespaces = new string[] { "vru.Controllers" };
+            args.PreRouteAction = RouteConfig.PreRouteAction;
+            args.PostRouteAction = RouteConfig.PostRouteAction;
 
-                //question
-                cfg.CreateMap<Question, VMQuestion>();
-                cfg.CreateMap<VMQuestion, Question>();
-
-                //service
-                cfg.CreateMap<Service, VMService>();
-                cfg.CreateMap<VMService, Service>();
-
-                //situation
-                cfg.CreateMap<Situation, VMSituation>();
-                cfg.CreateMap<VMSituation, Situation>();
-            };
             base.Application_Start(sender, args);
         }
 

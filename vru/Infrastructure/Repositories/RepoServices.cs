@@ -2,6 +2,7 @@
 using SX.WebCore;
 using SX.WebCore.Abstract;
 using SX.WebCore.Providers;
+using SX.WebCore.Repositories.Abstract;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
-    public sealed class RepoServices : SxDbRepository<int, Service, DbContext, VMService>
+    public sealed class RepoServices : SxDbRepository<int, Service, VMService>
     {
         public override VMService[] Read(SxFilter filter)
         {
@@ -50,10 +51,10 @@ namespace vru.Infrastructure.Repositories
             query += " AND (ds.Duration LIKE '%'+@duration+'%' OR @duration IS NULL) ";
             query += " AND (ds.Cost LIKE '%'+@cost+'%' OR @cost IS NULL) ";
 
-            var html = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Html != null ? (string)filter.WhereExpressionObject.Html : null;
-            var title = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Title != null ? (string)filter.WhereExpressionObject.Title : null;
-            var duration = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Duration != null ? (string)filter.WhereExpressionObject.Duration : null;
-            var cost = filter.WhereExpressionObject != null && filter.WhereExpressionObject.Cost != null ? (string)filter.WhereExpressionObject.Cost : null;
+            string html = filter.WhereExpressionObject?.Html;
+            string title = filter.WhereExpressionObject?.Title;
+            string duration = filter.WhereExpressionObject?.Duration;
+            string cost = filter.WhereExpressionObject?.Cost;
 
             param = new
             {

@@ -1,0 +1,77 @@
+﻿@model SxExtantions.SxPagedCollection<VMArticle>
+@{
+    ViewBag.Title = ViewBag.Title ?? "Материалы";
+    ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
+    VMArticle item;
+    SxVMMaterialCategory cat = ViewBag.Category;
+}
+
+@section intro{
+    Представлены материалы психологического формата
+}
+
+<div class="row">
+    <div class="col-md-9">
+        @if (Model.Collection.Any())
+        {
+            for (int i = 0; i < Model.Collection.Length; i++)
+            {
+                item = Model.Collection[i];
+
+                <div class="article-in-list">
+
+                    @if (item.FrontPictureId.HasValue)
+                    {
+                        <div class="article-in-list__picture">
+                            <figure style="background-image:url('@Url.Action("Picture", "Pictures", new { id=item.FrontPictureId})');"></figure>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="article-in-list__date">
+                                @item.DateOfPublication.ToString("dd.MM.yyyy")
+                            </div>
+                            @if (item.User != null)
+                            {
+                                <div class="article-in-list__author text-muted">
+                                    Автор: <span class="article-in-list__author-name">@item.User.NikName</span>
+                                </div>
+                            }
+                            @if (item.Category != null)
+                            {
+                                <div class="article-in-list__cat text-muted">
+                                    Категория: <span class="article-in-list__cat-title">@item.Category.Title</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <div class="article-in-list__title">
+                                <h2>@item.Title</h2>
+                            </div>
+                            <hr />
+                            <div class="article-in-list__fwd">
+                                @Html.Raw(item.GetForewordFromHtml(500))
+                            </div>
+                            <hr />
+                            <div class="text-right">
+                                <a class="btn btn-transparent green" href="@Url.Action("Details", "Articles", new { year=item.DateCreate.Year, month=item.DateCreate.Month.ToString("00"), day=item.DateCreate.Day.ToString("00"), titleUrl=item.TitleUrl})">Подробнее <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+            <div class="text-center">
+                @Html.SxPager(Model.PagerInfo, x => Url.Action("List", "Articles", new { page = x, cat = cat != null ? cat.Id : null }), htmlAttributes: new { @class = "pagination pagination-sm" }, isAjax: false)
+            </div>
+        }
+    </div>
+    <div class="col-md-3">
+        <div class="categories__header">
+            Категории
+        </div>
+        @Html.Action("List", "MaterialCategories", new { current = cat != null ? cat.Id : null })
+    </div>
+</div>
