@@ -1,10 +1,16 @@
-﻿@import (reference) "colors.less";
+﻿@import (reference) "../../../bower_components/bootstrap/less/variables.less";
+@import (reference) "colors.less";
 @import (reference) "sizes.less";
 
-.col-cm{
+
+.sx-gv td.col-cm{
     text-align:center;
     vertical-align:middle;
-    widows:0;
+    width:0;
+}
+
+.sx-gv td.word-wrap{
+    word-break: break-all;
 }
 
 .sx-gv a {
@@ -13,6 +19,7 @@
 
 .sx-gv table {
     margin-bottom: 0;
+    background-color:@color-white;
 }
 
 .sx-gv .tooltip {
@@ -82,4 +89,8 @@
 
 .sx-gv tfoot td {
     vertical-align:middle !important;
+}
+
+.sx-gv .sx-gv__add-from-chbx-btn{
+    //display:none;
 }

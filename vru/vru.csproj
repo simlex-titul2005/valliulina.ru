@@ -220,7 +220,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\MaterialCategoriesController.cs" />
     <Compile Include="Controllers\PicturesController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
@@ -305,24 +305,25 @@
     <Content Include="Views\Shared\_ShareButtons.cshtml" />
     <Content Include="Areas\Admin\Views\Articles\EditorTemplates\VMArticle.cshtml" />
     <None Include="Properties\PublishProfiles\RELEASE.pubxml" />
-    <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Errors\ServerError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SX.WebCore\SX.WebCore.Static\SX.WebCore.Static.csproj">
+      <Project>{743adb7f-3413-4789-8d46-b7c902da7a35}</Project>
+      <Name>SX.WebCore.Static</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SX.WebCore\SX.WebCore\SX.WebCore.csproj">
       <Project>{daf1a092-ded8-4c43-b08d-20e55c6f03a2}</Project>
       <Name>SX.WebCore</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Pictures\" />
-    <Folder Include="Views\Seo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

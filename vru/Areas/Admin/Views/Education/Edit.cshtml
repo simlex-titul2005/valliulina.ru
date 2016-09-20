@@ -4,6 +4,7 @@
     ViewBag.Title = isNew ? "Добавить образование" : "Редактировать образование";
 }
 @section styles{
+    <link href="~/Areas/Admin/content/dist/css/lightbox.min.css" rel="stylesheet" />
     <style type="text/css">
         .grid-pictures tbody > tr > td:last-child {
             text-align: center;
@@ -71,6 +72,7 @@
 </form>
 @section scripts{
     <script src="~/bower_components/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/content/dist/js/lightbox.min.js"></script>
     <script src="~/Areas/Admin/content/dist/js/jquery.validate.min.js"></script>
     <script src="~/Areas/Admin/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
     <script>

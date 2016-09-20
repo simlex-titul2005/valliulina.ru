@@ -26,7 +26,7 @@ namespace vru.ViewModels
 
         public SxVMPicture Picture { get; set; }
 
-        [Display(Name ="Картинка"), UIHint("PicturesLookupGrid")]
+        [Display(Name ="Картинка"), UIHint("_PicturesLookupGrid")]
         public Guid? PictureId { get; set; }
 
         [Display(Name = "Порядок отображения"), UIHint("EducationOrder")]

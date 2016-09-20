@@ -1,12 +1,14 @@
-﻿(function ($) {
+﻿/// <reference path="../../../bower_components/jquery/dist/jquery.min.js" />
+(function ($) {
     $.fn.sx_gv = function () {
         var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
         this.each(function () {
             var $this = $(this);
 
-            $this.on('click', '.sx-gv__pager a', function () {
+            $this.on('click', '.sx-gv__pager li:not(.active) a', function () {
                 $a = $(this);
+                $("<i></i>").addClass('fa fa-spinner fa-spin').prependTo($a);
                 $grid = $a.closest('.sx-gv');
                 var isActive = $a.closest('li').hasClass('active');
                 if (!isActive) {
@@ -54,6 +56,7 @@
                 var page = $grid.find('.sx-gv__pager li.active a').data('page');
 
                 getGridViewData($grid, page);
+                //replaceGridViewFind($grid);
                 event.preventDefault();
                 return false;
             });
@@ -66,13 +69,14 @@
             });
 
             $this.on('click', 'th', function () {
-                if ($(this).hasClass('sx-gv_first-column')) return;
+                $th = $(this);
+                if ($th.hasClass('sx-gv_first-column') || $th.attr('data-enable-sorting')=='false') return;
 
-                $grid = $(this).closest('.sx-gv');
+                $grid = $th.closest('.sx-gv');
                 var page = $grid.find('.sx-gv__pager li.active a').data('page');
 
-                $order = $(this).find('.sx-gv__sort-arow');
-                var filelName = $(this).data('field-name');
+                $order = $th.find('.sx-gv__sort-arow');
+                var filelName = $th.data('field-name');
 
                 var direction = 'Asc';
                 if ($order.length == 1) {
@@ -136,3 +140,10 @@ function getGridViewData(grid, page, order) {
         }
     });
 }
+
+//function replaceGridViewFind(grid)
+//{
+//    $grid = $(grid);
+//    $filterRowInputs = $grid.find('.sx-gv__filter-row input');
+//    console.log($filterRowInputs);
+//}

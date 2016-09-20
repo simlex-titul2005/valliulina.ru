@@ -1,4 +1,4 @@
-﻿/// <reference path="../bower_components/jquery/dist/jquery.min.js" />
+﻿/// <reference path="../../../bower_components/jquery/dist/jquery.min.js" />
 (function ($) {
     $.fn.sx_gvl = function () {
         var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;

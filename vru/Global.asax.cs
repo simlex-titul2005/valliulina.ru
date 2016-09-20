@@ -33,6 +33,7 @@ namespace vru
             _settings.Add("phone1", ConfigurationManager.AppSettings["phone1"]);
             _settings.Add("phone2", ConfigurationManager.AppSettings["phone2"]);
             _settings.Add("defDesc", ConfigurationManager.AppSettings["defDesc"]);
+            _settings.Add("defH1", ConfigurationManager.AppSettings["defH1"]);
             _settings.Add("defKeywords", ConfigurationManager.AppSettings["defKeywords"]);
         }
     }
