@@ -14,7 +14,7 @@
 
 
 @section scripts{
-    <script src="~/content/dist/js/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/content/dist/js/jquery.validate.min.js"></script>
-    <script src="~/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate"})"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate.unobtrusive"})"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.unobtrusive-ajax"})"></script>
 }

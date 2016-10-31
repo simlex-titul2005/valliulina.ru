@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using vru.Models;
 
 namespace vru
 {
@@ -14,8 +15,12 @@ namespace vru
         {
             fillSettings();
 
-            var args = new SxApplicationEventArgs();
-            args.GetDbContextInstance = () => { return new Infrastructure.DbContext(); };
+            var args = new SxApplicationEventArgs(
+                    defaultSiteName: "valliulina.ru",
+                    getDbContextInstance: () => { return new Infrastructure.DbContext(); },
+                    getModelCoreTypeName: getModelCoreTypeNameFunc
+                );
+
             args.WebApiConfigRegister = WebApiConfig.Register;
             args.MapperConfigurationExpression = cfg => { AutoMapperConfig.Register(cfg); };
 
@@ -25,6 +30,15 @@ namespace vru
             args.PostRouteAction = RouteConfig.PostRouteAction;
 
             base.Application_Start(sender, args);
+        }
+
+        private static string getModelCoreTypeNameFunc(byte key)
+        {
+            switch(key)
+            {
+                default: return null;
+                case 1: return nameof(Article);
+            }
         }
 
         private static void fillSettings()

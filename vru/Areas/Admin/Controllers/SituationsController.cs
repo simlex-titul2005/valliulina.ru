@@ -19,7 +19,7 @@ namespace vru.Areas.Admin.Controllers
                 _repo = new RepoSituations();
         }
 
-        private static readonly int _pageSize = 10;
+        private static readonly int _pageSize = 20;
 
         [HttpGet]
         public ActionResult Index(int page = 1)

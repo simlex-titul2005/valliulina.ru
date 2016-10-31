@@ -1,7 +1,8 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = ViewBag.Title ?? "Контакты";
     ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
+    var address = SiteSettingsProvider["address"]?.Value;
+    var addressmap = SiteSettingsProvider["addressmap"]?.Value;
 }
 
 @section intro{
@@ -9,9 +10,12 @@
 }
 
 <div class="contacts">
-    <div class="contacts__address">
-        г. Саратов, ул. Челюскинцев, 67
-    </div>
+    @if (!string.IsNullOrEmpty(address))
+    {
+        <div class="contacts__address">
+            @address
+        </div>
+    }
     <div class="contacts__phone1">
         @global_asax.Settings["phone1"]
     </div>
@@ -22,10 +26,13 @@
         <a href="mailto:jdsl24221@ya.ru">jdsl24221@ya.ru</a>
     </div>
 
-    <h2>Расположение</h2>
-    <div class="contaacts__map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.8873813512496!2d46.0419329!3d51.5336254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4114c7c27378d391%3A0x5b346a59a3823114!2z0YPQuy4g0KfQtdC70Y7RgdC60LjQvdGG0LXQsiwgNjcsINCh0LDRgNCw0YLQvtCyLCDQodCw0YDQsNGC0L7QstGB0LrQsNGPINC-0LHQuy4sIDQxMDAzMQ!5e0!3m2!1sru!2sru!4v1440178049879" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-    </div>
+    @if (!string.IsNullOrEmpty(addressmap))
+    {
+        <h2>Расположение</h2>
+        <div class="contaacts__map">
+            @Html.Raw(addressmap)
+        </div>
+    }
 
     <h2>Задайте вопрос или запишитесь на прием</h2>
     <div id="question">
@@ -34,7 +41,7 @@
 </div>
 
 @section scripts{
-    <script src="~/content/dist/js/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/content/dist/js/jquery.validate.min.js"></script>
-    <script src="~/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate"})"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate.unobtrusive"})"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.unobtrusive-ajax"})"></script>
 }

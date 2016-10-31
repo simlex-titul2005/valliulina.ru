@@ -1,6 +1,7 @@
 ﻿@{ 
     ViewBag.Description = ViewBag.Description ?? MvcApplication.Settings["defDesc"];
     ViewBag.Keywords = ViewBag.Keywords ?? MvcApplication.Settings["defKeywords"];
+    var siteName = SiteSettingsProvider["sitename"]?.Value;
 }
 <!DOCTYPE html>
 <html lang="ru">
@@ -15,7 +16,7 @@
         <meta name="yandex-verification" content="aa0cd1d895b5e263" />
     }
 
-    <title>@(ViewBag.Title==null? MvcApplication.SiteSettingsProvider.Get(Settings.siteName).Value:ViewBag.Title+" | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName).Value)</title>
+    <title>@(ViewBag.Title==null? siteName : ViewBag.Title + " | "+ siteName)</title>
 
     @if (ViewBag.Description != null)
     {
@@ -28,9 +29,11 @@
         <meta name="keywords" content="@ViewBag.Keywords" />
     }
 
-    <meta property="og:title" content="@(ViewBag.Title==null? MvcApplication.SiteSettingsProvider.Get(Settings.siteName).Value:ViewBag.Title+" | "+ MvcApplication.SiteSettingsProvider.Get(Settings.siteName).Value)" />
+    <meta property="og:title" content="@(ViewBag.Title==null? siteName : ViewBag.Title+" | "+ siteName)" />
     <meta property="og:image" content="@(Url.ContentAbsUrl(ViewBag.PageImage!=null? (string)ViewBag.PageImage : "/content/dist/images/owner.jpg"))" />
 
+    <link rel="stylesheet" href="@Url.Action("Css", "StaticContent", new { name="bootstrap", area="" })" />
+    <link rel="stylesheet" href="@Url.Action("Css", "StaticContent", new { name="font-awesome", area="" })" />
     <link rel="stylesheet" href="~/content/dist/css/site.min.css" />
     @RenderSection("styles", false)
 </head>
@@ -51,7 +54,9 @@
 
     @Html.Partial("_Footer")
 
-    <script src="~/content/dist/js/site.min.js"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery", area=""})"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="bootstrap", area=""})"></script>
+    @*<script src="~/content/dist/js/site.min.js"></script>*@
     @RenderSection("scripts", false)
 </body>
 </html>

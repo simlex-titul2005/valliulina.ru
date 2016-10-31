@@ -4,13 +4,10 @@
     ViewBag.H1 = ViewBag.H1 ?? ViewBag.Title;
     ViewBag.PageImage = ViewBag.PageImage ?? Model.FrontPicture != null ? Url.Action("Picture", "Pictures", new { id = Model.FrontPicture.Id }) : null;
 }
-
 @section intro{
     Материалы
 }
-
 <article class="article">
-
     @if (Model.User != null)
     {
         <div class="article__author text-muted">
@@ -18,7 +15,6 @@
         </div>
         <hr />
     }
-
     @if (Model.FrontPicture != null)
     {
         <div class="article__picture">
@@ -26,11 +22,13 @@
         </div>
         <hr />
     }
-
     <div class="article__html">
         @Html.Raw(Model.Html)
     </div>
     <hr />
-
     @Html.Partial("_ShareButtons")
 </article>
+
+@section scripts{
+    <script src="~/bower_components/goodshare/goodshare.min.js"></script>
+}

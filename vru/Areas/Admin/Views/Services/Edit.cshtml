@@ -72,8 +72,8 @@
 
 @section scripts{
     <script src="~/bower_components/ckeditor/ckeditor.js"></script>
-    <script src="~/Areas/Admin/content/dist/js/jquery.validate.min.js"></script>
-    <script src="~/Areas/Admin/content/dist/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate", area=""})"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate.unobtrusive", area=""})"></script>
     <script>
         if (CKEDITOR.instances['Html']) {
             CKEDITOR.remove(CKEDITOR.instances['Html']);

@@ -47,10 +47,6 @@
         </div>
         <div class="col-md-4">
             @Html.LabelFor(x => x.FrontPictureId, new { @class = "control-label" })
-            @if (Model.FrontPictureId.HasValue)
-            {
-                <a data-original-title="Помотреть картинку" onclick="x()" data-lightbox="roadtrip" data-title="@Model.Title" data-toggle="tooltip" title="" href="/pictures/picture/@Model.FrontPictureId"><i class="fa fa-picture-o"></i></a>
-            }
             @Html.EditorFor(x => x.FrontPictureId, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(x => x.FrontPictureId)
         </div>

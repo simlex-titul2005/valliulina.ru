@@ -3,7 +3,7 @@
     ViewBag.Title = "Образование";
 }
 @section styles{
-    <link href="~/Areas/Admin/content/dist/css/lightbox.min.css" rel="stylesheet" />
+    <link href="@Url.Action("Css", "StaticContent", new { name="lightbox", area=""})" rel="stylesheet" />
     <style>
         #grid tbody > tr > td.column-picture, #grid tbody > tr > td.column-order{
             text-align: center;
@@ -17,7 +17,7 @@
     @Html.Partial("_GridView", Model)
 </div>
 @section scripts{
-    <script src="~/Areas/Admin/content/dist/js/lightbox.min.js"></script>
+    <script src="@Url.Action("Js", "StaticContent", new { name="lightbox", area=""})"></script>
     <script>
         $('#grid').sx_gv();
 

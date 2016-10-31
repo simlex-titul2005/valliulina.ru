@@ -174,21 +174,8 @@
     <Content Include="Areas\Admin\content\dist\js\morris.min.js" />
     <Content Include="Areas\Admin\content\dist\js\raphael.min.js" />
     <Content Include="Areas\Admin\content\dist\js\site.min.js" />
-    <Content Include="content\dist\css\lightbox.min.css" />
     <Content Include="content\dist\css\site.min.css" />
-    <Content Include="content\dist\fonts\fontawesome-webfont.svg" />
-    <Content Include="content\dist\images\close.png" />
-    <Content Include="content\dist\images\loading.gif" />
-    <Content Include="content\dist\images\next.png" />
-    <Content Include="content\dist\images\owner.jpg" />
-    <Content Include="content\dist\images\prev.png" />
-    <Content Include="content\dist\js\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="content\dist\js\jquery.validate.min.js" />
-    <Content Include="content\dist\js\jquery.validate.unobtrusive.min.js" />
-    <Content Include="content\dist\js\lightbox.min.js" />
-    <Content Include="content\dist\js\site.min.js" />
     <Content Include="Global.asax" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -201,10 +188,13 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ArticlesController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\EducationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GraphicsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MaterialCategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MaterialTagsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MenuItemsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PictureLinksController.cs" />
     <Compile Include="Areas\Admin\Controllers\PicturesController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionsController.cs" />
@@ -229,6 +219,7 @@
     <Compile Include="Controllers\EducationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SituationsController.cs" />
+    <Compile Include="Controllers\StaticContentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -241,7 +232,6 @@
     <Compile Include="Infrastructure\Repositories\RepoQuestions.cs" />
     <Compile Include="Infrastructure\Repositories\RepoSituations.cs" />
     <Compile Include="Infrastructure\Repositories\RepoServices.cs" />
-    <Compile Include="Infrastructure\SiteSettings.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Education.cs" />
@@ -260,11 +250,6 @@
     <Content Include="Views\web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="content\dist\fonts\fontawesome-webfont.eot" />
-    <Content Include="content\dist\fonts\fontawesome-webfont.ttf" />
-    <Content Include="content\dist\fonts\fontawesome-webfont.woff" />
-    <Content Include="content\dist\fonts\fontawesome-webfont.woff2" />
-    <Content Include="content\dist\fonts\FontAwesome.otf" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Top.cshtml" />
@@ -275,7 +260,6 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\content\dist\fonts\fontawesome-webfont.eot" />
     <Content Include="Areas\Admin\content\dist\fonts\fontawesome-webfont.ttf" />
     <Content Include="Areas\Admin\content\dist\fonts\fontawesome-webfont.woff" />
@@ -290,7 +274,6 @@
     <Content Include="Areas\Admin\Views\Education\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\Education\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Education\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\SiteSettings\EditSite.cshtml" />
     <Content Include="Views\Services\_MainPageServices.cshtml" />
     <Content Include="Areas\Admin\Views\Situations\_GridView.cshtml" />
     <Content Include="Areas\Admin\Views\Situations\Edit.cshtml" />
@@ -316,10 +299,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SX.WebCore\SX.WebCore.Static\SX.WebCore.Static.csproj">
-      <Project>{743adb7f-3413-4789-8d46-b7c902da7a35}</Project>
-      <Name>SX.WebCore.Static</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SX.WebCore\SX.WebCore\SX.WebCore.csproj">
       <Project>{daf1a092-ded8-4c43-b08d-20e55c6f03a2}</Project>
       <Name>SX.WebCore</Name>

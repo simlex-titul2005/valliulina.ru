@@ -1,22 +1,17 @@
 ﻿using Dapper;
-using SX.WebCore;
-using SX.WebCore.Abstract;
-using SX.WebCore.Providers;
+using SX.WebCore.MvcApplication;
 using SX.WebCore.Repositories;
 using SX.WebCore.ViewModels;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using vru.Models;
 using vru.ViewModels;
-using static SX.WebCore.HtmlHelpers.SxExtantions;
 
 namespace vru.Infrastructure.Repositories
 {
     public sealed class RepoArticles : SxRepoMaterial<Article, VMArticle>
     {
-        public RepoArticles() : base(Enums.ModelCoreType.Article) { }
+        public RepoArticles() : base(SxMvcApplication.ModelCoreTypeProvider[nameof(Article)]) { }
 
        // public override VMArticle[] Read(SxFilter filter)
        // {

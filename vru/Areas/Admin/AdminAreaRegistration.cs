@@ -16,6 +16,12 @@ namespace vru.Areas.Admin
         {
             context.MapRoute(
                 name: null,
+                url: "Admin",
+                defaults: new { controller = "Home", action = "Index", area = "Admin" }
+            );
+
+            context.MapRoute(
+                name: null,
                 url: "Admin/MaterialCategories/Edit/{mct}/{id}",
                 defaults: new { controller = "MaterialCategories", action = "Edit", id = UrlParameter.Optional, area = "Admin" }
             );

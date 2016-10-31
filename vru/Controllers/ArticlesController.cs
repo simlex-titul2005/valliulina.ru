@@ -1,5 +1,4 @@
-﻿using SX.WebCore;
-using SX.WebCore.MvcControllers;
+﻿using SX.WebCore.MvcControllers;
 using System.Web.Mvc;
 using vru.Infrastructure.Repositories;
 using vru.Models;
@@ -12,7 +11,7 @@ namespace vru.Controllers
     public sealed class ArticlesController : SxMaterialsController<Article, VMArticle>
     {
         private static RepoArticles _repo = new RepoArticles();
-        public ArticlesController() : base(Enums.ModelCoreType.Article) { }
+        public ArticlesController() : base(ModelCoreTypeProvider[nameof(Article)]) { }
         public override SxRepoMaterial<Article, VMArticle> Repo
         {
             get
