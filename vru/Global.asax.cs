@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using vru.Infrastructure;
 using vru.Models;
 
 namespace vru
@@ -18,7 +19,9 @@ namespace vru
             var args = new SxApplicationEventArgs(
                     defaultSiteName: "valliulina.ru",
                     getDbContextInstance: () => { return new Infrastructure.DbContext(); },
-                    getModelCoreTypeName: getModelCoreTypeNameFunc
+                    getModelCoreTypeName: getModelCoreTypeNameFunc,
+                    customModelCoreTypes:new Dictionary<string, byte>(),
+                    repoProvider: new RepoProvider()
                 );
 
             args.WebApiConfigRegister = WebApiConfig.Register;

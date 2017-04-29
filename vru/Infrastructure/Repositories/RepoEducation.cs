@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using SX.WebCore;
 using SX.WebCore.DbModels;
-using SX.WebCore.Providers;
-using SX.WebCore.Repositories.Abstract;
+using SX.WebCore.SxProviders;
+using SX.WebCore.SxRepositories.Abstract;
 using SX.WebCore.ViewModels;
 using System.Data.SqlClient;
 using System.Linq;
@@ -37,11 +37,11 @@ namespace vru.Infrastructure.Repositories
             sb.Append(SxQueryProvider.GetSelectString());
             sb.Append(" FROM D_EDUCATION AS de LEFT JOIN D_PICTURE AS dp ON dp.Id=de.PictureId ");
 
-            object param = null;
-            var gws = getEducationWhereString(filter, out param);
+            object param;
+            var gws = GetEducationWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
+            var defaultOrder = new SxOrderItem { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
@@ -63,7 +63,7 @@ namespace vru.Infrastructure.Repositories
             }
         }
 
-        private static string getEducationWhereString(SxFilter filter, out object param)
+        private static string GetEducationWhereString(SxFilter filter, out object param)
         {
             param = null;
             string query = null;

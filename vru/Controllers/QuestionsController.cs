@@ -1,4 +1,4 @@
-﻿using SX.WebCore.Managers;
+﻿using SX.WebCore.SxManagers;
 using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +47,7 @@ namespace vru.Controllers
                     return PartialView("_Add", model);
                 }
 
-                var send= await sendMail(model);
+                var send= await SendMail(model);
                 if(!send)
                 {
                     ViewBag.Message = "Не удалось отправить сообщение";
@@ -62,7 +62,7 @@ namespace vru.Controllers
             return PartialView("_Add", model);
         }
 
-        private static async Task<bool> sendMail(VMQuestion model)
+        private static async Task<bool> SendMail(VMQuestion model)
         {
             var smtpUserName = ConfigurationManager.AppSettings["NoReplyMail"];
             var mm = new SxAppMailManager(smtpUserName, ConfigurationManager.AppSettings["NoReplyMailPassword"], "mail.valliulina.ru");
@@ -78,7 +78,7 @@ namespace vru.Controllers
             email = "simlex.dev.2014@gmail.com";
 #endif
 
-            return await mm.SendMail(model.Email, sb.ToString(), new string[] { email }, "Обращение с формы обратной связи");
+            return await mm.SendMail(sb.ToString(), new string[] { email }, "Обращение с формы обратной связи");
         }
     }
 }

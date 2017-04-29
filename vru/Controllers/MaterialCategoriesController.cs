@@ -19,10 +19,10 @@ namespace vru.Controllers
         [ChildActionOnly, AllowAnonymous]
         public PartialViewResult List(string current = null)
         {
-            var viewModel = (Repo as RepoMaterialCategory).All.Select(x => new VMCategory
+            var viewModel = (Repo as RepoMaterialCategory).All().Select(x => new VMCategory
             {
                 Title = x.Title,
-                Url = Url.Action("Index", "Articles", new { cat = x.Id }),
+                Url = Url.Action("Index", "Articles", new { category = x.Id }),
                 IsCurrent=current==x.Id?.ToString()
             }).ToArray();
 

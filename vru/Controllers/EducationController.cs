@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using vru.Infrastructure.Repositories;
-using vru.Models;
 using vru.ViewModels;
 using static SX.WebCore.HtmlHelpers.SxExtantions;
 
@@ -22,7 +21,7 @@ namespace vru.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "de.[Order]", Direction = SortDirection.Desc };
+            var order = new SxOrderItem { FieldName = "de.[Order]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
 
             var viewData = _repo.Read(filter);

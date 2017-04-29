@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using SX.WebCore.MvcApplication;
-using SX.WebCore.Repositories;
+using SX.WebCore.SxRepositories;
 using SX.WebCore.ViewModels;
 using System.Data.SqlClient;
 using System.Linq;

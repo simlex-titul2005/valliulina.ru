@@ -24,7 +24,7 @@ namespace vru.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "ds.[Text]", Direction = SortDirection.Desc };
+            var order = new SxOrderItem { FieldName = "ds.[Text]", Direction = SortDirection.Desc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
 
             var viewModel = _repo.Read(filter);
@@ -37,7 +37,7 @@ namespace vru.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(VMSituation filterModel, SxOrder order, int page = 1)
+        public async Task<ActionResult> Index(VMSituation filterModel, SxOrderItem order, int page = 1)
         {
             var filter = new SxFilter(page, _pageSize) { Order = order != null && order.Direction != SortDirection.Unknown ? order : null, WhereExpressionObject = filterModel };
 

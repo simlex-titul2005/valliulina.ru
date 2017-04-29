@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using SX.WebCore;
-using SX.WebCore.Providers;
-using SX.WebCore.Repositories.Abstract;
+using SX.WebCore.SxProviders;
+using SX.WebCore.SxRepositories.Abstract;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -19,11 +19,11 @@ namespace vru.Infrastructure.Repositories
             sb.Append(SxQueryProvider.GetSelectString());
             sb.Append(" FROM D_SITUATION AS ds");
 
-            object param = null;
-            var gws = getSituationsWhereString(filter, out param);
+            object param;
+            var gws = GetSituationsWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new SxOrder { FieldName = "ds.[Text]", Direction = SortDirection.Desc };
+            var defaultOrder = new SxOrderItem { FieldName = "ds.[Text]", Direction = SortDirection.Desc };
             sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
@@ -41,7 +41,7 @@ namespace vru.Infrastructure.Repositories
             }
         }
 
-        private static string getSituationsWhereString(SxFilter filter, out object param)
+        private static string GetSituationsWhereString(SxFilter filter, out object param)
         {
             param = null;
             string query = null;

@@ -3,7 +3,8 @@ using System.Web.Mvc;
 using vru.Infrastructure.Repositories;
 using vru.Models;
 using vru.ViewModels;
-using SX.WebCore.Repositories;
+using SX.WebCore.SxRepositories;
+using System.Threading.Tasks;
 
 namespace vru.Controllers
 {
@@ -21,9 +22,9 @@ namespace vru.Controllers
         }
 
         [HttpGet]
-        public override ActionResult List(int page = 1, int pageSize = 10)
+        public override Task<ActionResult> List(int page = 1, int pageSize = 2, bool? withPictures = default(bool?))
         {
-            return base.List(page, 2);
+            return base.List(page, pageSize, withPictures);
         }
 
         [HttpGet]

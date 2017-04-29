@@ -18,11 +18,11 @@
     <div class="service-details__duration">
         Стоимость: <strong>@(Model.Cost ?? "По договоренности")</strong>
     </div>
-    <hr />
+    @*<hr />
     <h2>Записаться</h2>
     <div id="question">
         @Html.Action("Add", "Questions")
-    </div>
+    </div>*@
 </div>
 @section scripts{
     <script src="@Url.Action("Js", "StaticContent", new { name="jquery.validate"})"></script>

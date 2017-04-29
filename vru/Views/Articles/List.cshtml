@@ -64,7 +64,7 @@
             }
 
             <div class="text-center">
-                @Html.SxPager(Model.PagerInfo, x => Url.Action("List", "Articles", new { page = x, cat = cat != null ? cat.Id : null }), htmlAttributes: new { @class = "pagination pagination-sm" }, isAjax: false)
+                @Html.SxPager(Model.PagerInfo, x => Url.Action("List", "Articles", new { page = x, category = cat != null ? cat.Id : null }), htmlAttributes: new { @class = "pagination pagination-sm" }, isAjax: false)
             </div>
         }
     </div>

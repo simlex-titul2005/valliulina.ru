@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using SX.WebCore;
-using SX.WebCore.Providers;
-using SX.WebCore.Repositories.Abstract;
+using SX.WebCore.SxProviders;
+using SX.WebCore.SxRepositories.Abstract;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -64,11 +64,11 @@ namespace vru.Infrastructure.Repositories
             sb.Append(SxQueryProvider.GetSelectString());
             sb.Append(" FROM D_QUESTION AS dq");
 
-            object param = null;
-            var gws = getQuestionsWhereString(filter, out param);
+            object param;
+            var gws = GetQuestionsWhereString(filter, out param);
             sb.Append(gws);
 
-            var defaultOrder = new SxOrder { FieldName = "dq.DateCreate", Direction = SortDirection.Desc };
+            var defaultOrder = new SxOrderItem { FieldName = "dq.DateCreate", Direction = SortDirection.Desc };
             sb.Append(SxQueryProvider.GetOrderString(defaultOrder, filter.Order));
 
             sb.AppendFormat(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", filter.PagerInfo.SkipCount, filter.PagerInfo.PageSize);
@@ -86,7 +86,7 @@ namespace vru.Infrastructure.Repositories
             }
         }
 
-        private static string getQuestionsWhereString(SxFilter filter, out object param)
+        private static string GetQuestionsWhereString(SxFilter filter, out object param)
         {
             param = null;
             string query = null;

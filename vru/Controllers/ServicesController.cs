@@ -26,7 +26,7 @@ namespace vru.Controllers
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var order = new SxOrder { FieldName = "Title", Direction = SortDirection.Asc };
+            var order = new SxOrderItem { FieldName = "Title", Direction = SortDirection.Asc };
             var filter = new SxFilter(page, _pageSize) { Order = order };
 
             var viewData = _repo.Read(filter);
@@ -60,7 +60,7 @@ namespace vru.Controllers
         [HttpGet, ChildActionOnly]
         public PartialViewResult MainPageServices(int amount=3)
         {
-            var order = new SxOrder { FieldName = "Title", Direction = SortDirection.Asc };
+            var order = new SxOrderItem { FieldName = "Title", Direction = SortDirection.Asc };
             var filter = new SxFilter(1, 3) { Order = order };
             
             var viewModel = _repo.Read(filter);

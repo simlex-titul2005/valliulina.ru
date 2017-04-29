@@ -23,7 +23,7 @@ namespace vru.Controllers
         [HttpGet, ChildActionOnly]
         public PartialViewResult MainPageSituations(int? amount = null, int maxAmount=30)
         {
-            var order = new SxOrder { FieldName = "ds.[Text]", Direction = SortDirection.Asc };
+            var order = new SxOrderItem { FieldName = "ds.[Text]", Direction = SortDirection.Asc };
             var filter = new SxFilter(1, amount.HasValue ? (int)amount : maxAmount) { Order = order };
             var viewModel = _repo.Read(filter);
 
